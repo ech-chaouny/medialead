@@ -1,0 +1,22 @@
+/* Product story: separate examples with a clear reading order. */
+.hero{padding-top:170px;padding-bottom:30px;min-height:0}
+.hero h1{font-size:clamp(46px,5.5vw,74px)}
+.hero-content>p{max-width:710px;margin:22px auto 0;font-size:16px}
+.product-story{margin:65px auto 0;text-align:left;max-width:1120px}
+.story-intro{display:flex;justify-content:space-between;align-items:end;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid #e8e8e8}
+.story-intro>span{font-size:9px;letter-spacing:1.8px;color:#777}.story-intro p{font-size:15px;line-height:1.5;text-align:right}.story-intro strong{font-weight:500;color:#111}
+.story-grid{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:18px}
+.story-card{min-width:0;background:#f7f7f7;border:1px solid #eaeaea;border-radius:20px;overflow:hidden;display:flex;flex-direction:column}
+.story-card-heading{height:60px;display:flex;align-items:center;gap:9px;padding:0 23px;font-size:9px;letter-spacing:1.3px;color:#444}.story-card-heading svg{color:#cc7000}.story-card-heading>span:last-child{margin-left:auto;color:#999;letter-spacing:0}
+.story-web-frame{margin:38px 18px 0;border-radius:9px;overflow:hidden;box-shadow:0 12px 25px #00000012;background:white}
+.story-browser-bar{height:24px;display:flex;align-items:center;gap:4px;padding:0 9px}.story-browser-bar i{width:4px;height:4px;background:#ccc;border-radius:50%}.story-browser-bar span{margin:auto;font-size:7px;color:#666;padding-right:20px}
+.story-web-image{position:relative;aspect-ratio:1952/985;overflow:hidden}.story-web-image img{position:absolute;top:-21.3%;left:0;width:100%;height:auto;max-width:none;display:block}
+.story-app-stage{height:260px;overflow:hidden;display:flex;justify-content:center;background:radial-gradient(ellipse at 50% 90%,#ff8b001c,transparent 70%)}
+.story-device{width:150px;padding:5px;background:#252525;border-radius:26px 26px 0 0;box-shadow:0 14px 28px #0000001c;margin-top:4px;align-self:start}.story-device img{display:block;width:100%;height:auto;border-radius:21px 21px 0 0}
+.story-copy{padding:24px;margin-top:auto;background:#ffffff;position:relative;border-top:1px solid #eeeeee}.story-copy h3{font-size:16px;letter-spacing:-.5px;line-height:1.4}.story-copy p{font-size:12px;line-height:1.7;margin-top:10px}.story-copy>span{display:flex;align-items:center;gap:7px;font-size:10px;color:#777;margin-top:20px}
+.story-results{background:#fffaf4}.story-flow{height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:0 20px}.story-flow>div{width:100%;padding:12px 14px;border:1px solid #eddfcc;background:#ffffffb5;border-radius:10px}.story-flow>div>span{display:block;font-size:7px;letter-spacing:1.3px;color:#ad6000;margin-bottom:5px}.story-flow strong{font-size:12px;font-weight:500}.story-flow>svg{color:var(--primary);flex-shrink:0;animation:story-arrow 3s ease-in-out infinite}.story-flow>svg:nth-of-type(2){animation-delay:1.5s}
+.hero .hero-scroll{margin:28px auto 0}
+@keyframes story-arrow{0%,100%{transform:translateY(-2px);opacity:.4}50%{transform:translateY(2px);opacity:1}}
+@media(max-width:800px){.hero{padding-top:155px}.story-grid{gap:12px}.story-card-heading{padding:0 15px;font-size:8px}.story-copy{padding:18px 15px}.story-copy h3{font-size:14px}.story-copy p{font-size:11px}.story-web-frame{margin:50px 10px 0}.story-flow{padding:0 12px}.story-flow strong{font-size:11px}.story-device{width:133px}.story-app-stage,.story-flow{height:245px}}
+@media(max-width:600px){.hero{padding-top:145px}.hero-content>p{font-size:14px}.product-story{margin-top:42px}.story-intro{align-items:start;gap:15px}.story-intro>span{font-size:7px;line-height:1.8;max-width:100px}.story-intro p{font-size:12px}.story-grid{grid-template-columns:1fr;gap:18px}.story-card-heading{height:50px;padding:0 22px;font-size:9px}.story-web-frame{margin:6px 20px 25px}.story-app-stage{height:245px}.story-device{width:155px}.story-copy{padding:21px}.story-copy h3{font-size:17px}.story-copy p{font-size:13px}.story-copy>span{margin-top:15px}.story-flow{height:auto;padding:6px 22px 24px}.story-flow>div{padding:13px 15px}.story-flow strong{font-size:13px}}
+@media(prefers-reduced-motion:reduce){.story-flow>svg{animation:none}}

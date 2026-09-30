@@ -1,0 +1,9 @@
+node_modules/
+.next/
+.env*
+!.env.example
+*.tsbuildinfo
+.DS_Store
+.claude/
+# capture d’écran Mac avec onglets et favoris personnels
+public/images/hero/omak-desktop.png

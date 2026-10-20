@@ -13,16 +13,13 @@ import WorkCards, { type WorkItem } from '@/components/work-cards';
 
 /* Logos clients : fichiers détourés dans /images/logos, tailles équilibrées en CSS. */
 const clients = [
-  { name: 'DROK', src: 'drok.png', key: 'drok' },
-  { name: 'WashRoc', src: 'washroc.png', key: 'washroc' },
-  { name: 'Privu', src: 'privu.png', key: 'privu' },
-  { name: 'OMAK Service', src: 'omak.png', key: 'omak' },
-  { name: 'FNM', src: 'fnm.png', key: 'fnm' },
-  { name: 'Maroc Telecom', src: 'telecom.png', key: 'telecom' },
+  { name: 'DROK', src: 'drok.png', key: 'drok', tag: 'Livraison' },
+  { name: 'WashRoc', src: 'washroc.png', key: 'washroc', tag: 'Lavage auto' },
+  { name: 'Privu', src: 'privu.png', key: 'privu', tag: 'Marketplace vidéo' },
+  { name: 'OMAK Service', src: 'omak.png', key: 'omak', tag: 'Services auto' },
+  { name: 'FNM', src: 'fnm.png', key: 'fnm', tag: 'Formation' },
+  { name: 'Maroc Telecom', src: 'telecom.png', key: 'telecom', tag: 'Télécom' },
 ];
-const clientLogo = (c: typeof clients[number], hidden = false) => <li key={c.key} className={`logo-${c.key}`}>
-  <img src={`/images/logos/${c.src}`} alt={hidden ? '' : c.name} loading="lazy" />
-</li>;
 const sectors: Record<string, string> = {
   drok: 'Livraison à la demande · Mohammedia',
   washroc: 'Lavage automobile à domicile · Casablanca',
@@ -59,17 +56,6 @@ export default function Home() {
   return <>
     {/* 01 — Hero */}
     <Hero />
-
-    {/* 02 — Preuve : clients (style clair) */}
-    <section className="logos" aria-labelledby="logos-title">
-      <div className="container"><p id="logos-title" className="logos-label">Des produits et des entreprises que nous avons aidés à construire et à grandir.</p></div>
-      <div className="logos-marquee">
-        <div className="logos-track">
-          <ul>{clients.map(c => clientLogo(c))}</ul>
-          <ul aria-hidden="true">{clients.map(c => clientLogo(c, true))}</ul>
-        </div>
-      </div>
-    </section>
 
     {/* 03 — Le problème */}
     <section className="section" id="probleme"><div className="container">
@@ -191,6 +177,19 @@ export default function Home() {
         <div className="member-info"><h3>{name}</h3><span>{role}</span></div>
       </article>)}</div>
     </div></section>
+
+    {/* 14 bis — Clients, sous la core team */}
+    <section className="logos" id="clients" aria-labelledby="logos-title">
+      <div className="container logos-head"><span className="logos-badge">Nos clients</span><p id="logos-title" className="logos-label">Ils nous ont confié leur produit, leur acquisition et leur croissance.</p></div>
+      <div className="logo-loop" data-reveal>
+        <div className="logo-loop-track">
+          {[false, true].map(hidden => <ul key={String(hidden)} className="logo-wall" aria-hidden={hidden || undefined}>{clients.map(c => <li key={c.key} className={`logo-${c.key}`}>
+            <img src={`/images/logos/${c.src}`} alt={hidden ? '' : c.name} loading="lazy" />
+            <span>{c.tag}</span>
+          </li>)}</ul>)}
+        </div>
+      </div>
+    </section>
 
     {/* 15 — Growth Audit */}
     <section className="section audit" id="audit"><div className="container audit-inner">

@@ -47,7 +47,7 @@ export function CTA(){return <section className="cta" id="contact"><div classNam
     <h2 className="cta-title">Votre prochaine étape.<br/><em>Ça commence ici.</em></h2>
     <p className="cta-lead">Un produit à lancer, une app à faire grandir ou une acquisition à rendre rentable : parlons-en.</p>
     <div className="cta-actions">
-      <Button href="tel:+212661912916">Parlons de votre projet</Button>
+      <Button href="/contact">Parlons de votre projet</Button>
       <a className="cta-phone" href="tel:+212661912916"><Phone size={17} strokeWidth={1.8} aria-hidden="true"/>+212 6 61 91 29 16</a>
     </div>
     <ol className="cta-steps">{nextSteps.map((s,i)=><li key={s}><span>{String(i+1).padStart(2,'0')}</span>{s}</li>)}</ol>

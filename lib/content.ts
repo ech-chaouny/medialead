@@ -64,8 +64,8 @@ export const reasons = [
 
 export const projectHighlights: Record<string, { transformation: string; metric?: string; metricLabel: string }> = {
   drok: { transformation: 'Application héritée → Reconstruction → Première commande → Passage à l’échelle', metricLabel: 'Scaling en cours' },
-  washroc: { transformation: 'Changement de modèle → Produit adapté → Prestation terminée → Capacité maîtrisée', metricLabel: 'Transformation et lancement en cours' },
-  omak: { transformation: 'Garage traditionnel → Offres digitales → Demandes → Visites → Chiffre d’affaires', metric: '≈ 200K MAD', metricLabel: 'de chiffre d’affaires généré en moins de 3 mois' },
+  washroc: { transformation: 'Changement de modèle → Produit adapté → Prestation terminée → Capacité maîtrisée', metric: '70K MAD / mois', metricLabel: 'de chiffre d’affaires dès le lancement' },
+  omak: { transformation: 'Garage traditionnel → Offres digitales → Demandes → Visites → Chiffre d’affaires', metric: '+500K MAD', metricLabel: 'de chiffre d’affaires généré en moins de 3 mois' },
   fnm: { transformation: 'Présence informative → Site + campagnes → Demandes → Inscriptions', metric: '10+', metricLabel: 'inscriptions par mois sur les campagnes actives · accompagné depuis 2022' },
   privu: { transformation: 'Concept → Produit → Marketplace → Monétisation', metricLabel: 'Produit et monétisation' },
   telecom: { transformation: 'Réseau multi-agences → Lead generation continue → Installations → Chiffre d’affaires', metric: '200K+ MAD / mois', metricLabel: 'de chiffre d’affaires généré · partenariat depuis 2023' },
@@ -99,23 +99,25 @@ export const highlights = [
 
 /* V5 §5.4 — les trois piliers et leurs preuves. */
 export const pillars = [
-  { key: 'dev', title: 'Développement', text: 'Nous concevons, reprenons et faisons évoluer des produits digitaux.', proofs: ['DROK', 'WashRoc', 'Privu'] },
-  { key: 'marketing', title: 'Digital Marketing', text: 'Nous structurons acquisition, offres, créatives, lead generation et conversion.', proofs: ['DROK', 'OMAK Service', 'FNM', 'Réseau Telecom'] },
-  { key: 'results', title: 'Résultats', text: 'Nous pilotons jusqu’à la métrique utile : commande, lavage, inscription, installation, chiffre d’affaires.', proofs: ['WashRoc', 'FNM', 'OMAK Service', 'Réseau Telecom'] },
+  { key: 'dev', title: 'Développement', text: 'Nous concevons, reprenons et faisons évoluer des produits digitaux.' },
+  { key: 'marketing', title: 'Digital Marketing', text: 'Nous structurons acquisition, offres, créatives, lead generation et conversion.' },
+  { key: 'results', title: 'Résultats', text: 'Nous pilotons jusqu’à la métrique utile : commande, lavage, inscription, installation, chiffre d’affaires.' },
 ];
 
 /* V5 §5.5 — ce que nous avons déjà fait, par domaine. */
 export const doneDev = ['Applications mobiles', 'Sites web', 'Reprises de produits', 'Plateformes & marketplaces', 'Dashboards'];
 export const doneContent = ['Vidéos', 'UGC', 'Créatives Meta', 'Posts orientés performance'];
 export const doneResults = [
-  { value: '≈ 200K MAD', label: 'de chiffre d’affaires généré en moins de 3 mois', client: 'OMAK Service' },
-  { value: '200K+ MAD', label: 'de chiffre d’affaires par mois, depuis 2023', client: 'Réseau Commercial Telecom' },
-  { value: '10+', label: 'inscriptions par mois sur les campagnes actives', client: 'FNM · depuis 2022' },
+  { value: '+500K', unit: 'MAD', label: 'de chiffre d’affaires généré en moins de 3 mois', client: 'OMAK Service' },
+  { value: '200K+', unit: 'MAD / mois', label: 'de chiffre d’affaires, depuis 2023', client: 'Réseau Commercial Telecom' },
+  { value: '70K', unit: 'MAD / mois', label: 'de chiffre d’affaires dès le lancement', client: 'WashRoc' },
+  { value: '10+', unit: 'inscriptions / mois', label: 'sur les campagnes actives', client: 'FNM · depuis 2022' },
 ];
 export const doneTracked = [
   { label: 'Commandes', client: 'DROK' },
   { label: 'Lavages réalisés', client: 'WashRoc' },
   { label: 'Installations', client: 'Réseau Telecom' },
+  { label: 'Étudiants inscrits', client: 'FNM' },
 ];
 
 /* Growth System — texte de chaque étape (même ordre que `stages`). */

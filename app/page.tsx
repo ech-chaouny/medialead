@@ -1,5 +1,5 @@
-import { ArrowRight, RadioTower, Code2, Megaphone, Layers3, Target, Users, Check, Search, Wrench, ChartNoAxesCombined, TrendingUp, Smartphone, Rocket, Building2 } from 'lucide-react';
-import { Button, SectionHead, MediaSlot, CTA } from '@/components/ui';
+import { ArrowRight, RadioTower, Code2, Megaphone, Layers3, Target, Users, Store, Download, UserPlus, UserCheck, ShoppingCart, CircleCheck, RefreshCw, Search, Wrench, ChartNoAxesCombined, TrendingUp, Smartphone, Rocket, Building2 } from 'lucide-react';
+import { Button, SectionHead, CTA } from '@/components/ui';
 import { projects, appFunnel, businessFunnel, kpiLevels, audiences, reasons, projectHighlights, pillars } from '@/lib/content';
 import Hero from '@/components/hero';
 import ConnectedGrowth from '@/components/connected-growth';
@@ -49,8 +49,9 @@ const takeover = [
   { Icon: TrendingUp, title: 'Évolution continue' },
 ];
 const audienceIcons = [Smartphone, Rocket, Building2];
-const team = [['Zakaria', 'Strategy & Growth'], ['Ismail', 'Tech & Product'], ['Hanane', 'Growth & Project Management']];
-const appEvents = [['app_install', 'Installation'], ['first_order', 'Première commande'], ['repeat_order', 'Réachat']];
+const team = [['Zakaria', 'Strategy & Growth', 'zakaria'], ['Ismail', 'Tech & Product', 'ismail'], ['Hanane', 'Growth & Project Management', 'hanane'], ['Hafsa', 'Video & Content Creator', 'hafsa'], ['Jihane', 'Content Creator', 'jihane']];
+/* Une icône par étape du parcours app, dans l'ordre de appFunnel. */
+const funnelIcons = [Megaphone, Store, Download, UserPlus, UserCheck, ShoppingCart, CircleCheck, RefreshCw];
 
 export default function Home() {
   return <>
@@ -67,10 +68,9 @@ export default function Home() {
     <section className="section paper" id="expertises"><div className="container">
       <SectionHead center eyebrow="NOS 3 PILIERS" title="Plus qu’une agence." accent="Un partenaire jusqu’au résultat." lead="Développement, digital marketing et pilotage des résultats : une seule équipe, du produit au chiffre d’affaires." />
       <div className="pillars">{pillars.map((p, i) => { const Icon = pillarIcons[p.key as keyof typeof pillarIcons]; return <article className="pillar" key={p.key} data-reveal style={{ transitionDelay: `${i * 90}ms` }}>
-        <div className="pillar-top"><span className="pillar-icon"><Icon size={22} strokeWidth={1.8} /></span><span className="pillar-num">0{i + 1}</span></div>
+        <div className="pillar-top"><span className="pillar-icon"><Icon size={28} strokeWidth={1.9} /></span><span className="pillar-num">0{i + 1}</span></div>
         <h3>{p.title}</h3>
         <p>{p.text}</p>
-        <div className="pillar-proofs"><span>Preuves</span><ul>{p.proofs.map(x => <li key={x}>{x}</li>)}</ul></div>
       </article>; })}</div>
     </div></section>
 
@@ -92,13 +92,12 @@ export default function Home() {
         <div className="eyebrow">APP GROWTH</div>
         <h2>L’installation n’est pas <em>la ligne d’arrivée.</em></h2>
         <p className="split-lead">Attirez les bons utilisateurs et accompagnez-les jusqu’à leur première commande, puis leur prochain achat.</p>
-        <ol className="path">{appFunnel.map((s, i) => <li key={s} className={i === appFunnel.length - 1 ? 'is-goal' : undefined}><span>{String(i + 1).padStart(2, '0')}</span>{s}</li>)}</ol>
-        <div className="split-foot"><Button href="#audit">Auditer la croissance de mon app</Button><a className="link-arrow" href="#realisations">Voir le cas DROK<ArrowRight size={16} strokeWidth={2} /></a></div>
+        <ol className="path">{appFunnel.map((s, i) => { const Icon = funnelIcons[i]; return <li key={s} className={i === appFunnel.length - 1 ? 'is-goal' : undefined}><span>{String(i + 1).padStart(2, '0')}</span><Icon size={18} strokeWidth={1.8} aria-hidden="true" />{s}</li>; })}</ol>
+        <div className="split-foot"><Button href="#audit">Auditer la croissance de mon app</Button></div>
       </div>
-      <div className="device-stage" data-reveal>
-        <div className="device"><MediaSlot label="Écran app DROK" className="slot-screen" /></div>
-        {appEvents.map(([code, label], i) => <div className={`event-chip ec-${i}`} key={code}><code>{code}</code><span>{label}</span>{i === 1 && <Check size={14} strokeWidth={3} />}</div>)}
-      </div>
+      <figure className="apps-visual" data-reveal>
+        <img src="/images/app-growth/apps-tracking-v2.webp" width={1968} height={1554} alt="Applications WashRoc et DROK, avec les événements suivis de l’installation au réachat : app_install, sign_up, add_to_cart, first_order, repeat_order." />
+      </figure>
     </div></section>
 
     {/* 08 — Digital Transformation & Lead Generation */}
@@ -144,7 +143,6 @@ export default function Home() {
         <span className="timeline-n">0{i + 1}</span>
         <strong>{title}</strong>
       </li>)}</ol>
-      <p className="takeover-proof" data-reveal>Preuve principale : <strong>WashRoc</strong> — produit repris et adapté à un nouveau modèle opérationnel.</p>
       <div className="center-cta"><Button href="#contact">Faire auditer votre produit</Button></div>
     </div></section>
 
@@ -171,10 +169,10 @@ export default function Home() {
 
     {/* 14 — Core Team */}
     <section className="section" id="agence"><div className="container">
-      <SectionHead center eyebrow="CORE TEAM" title="Rencontrez" accent="notre core team." lead="La stratégie, la technologie et la création, ensemble." />
-      <div className="team">{team.map(([name, role], i) => <article className="member" key={name} data-reveal style={{ transitionDelay: `${i * 90}ms` }}>
-        <MediaSlot label={`Photo — ${name}`} className="slot-portrait" />
-        <div className="member-info"><h3>{name}</h3><span>{role}</span></div>
+      <SectionHead center eyebrow="CORE TEAM" title="Rencontrez" accent="notre core team." lead="La stratégie, la technologie, le contenu et la création, ensemble." />
+      <div className="team-grid" data-reveal>{team.map(([name, role, photo]) => <article className="team-card" key={name} tabIndex={0}>
+        <img src={`/images/team/${photo}.webp`} width={1086} height={1448} alt={`${name}, ${role}`} loading="lazy" />
+        <div className="team-info"><h3>{name}</h3><span>{role}</span></div>
       </article>)}</div>
     </div></section>
 
@@ -195,9 +193,10 @@ export default function Home() {
     <section className="section audit" id="audit"><div className="container audit-inner">
       <div className="audit-copy" data-reveal>
         <div className="eyebrow">GROWTH AUDIT</div>
-        <h2>Où votre croissance<br />bloque-t-elle vraiment ?</h2>
-        <p>Quatre questions. Les zones à auditer s’affichent tout de suite.</p>
-        <ul className="audit-themes">{['Produit', 'Tracking', 'Acquisition', 'Conversion', 'Business model'].map(t => <li key={t}>{t}</li>)}</ul>
+        <h2>Où votre croissance <span style={{ whiteSpace: 'nowrap' }}>bloque-t-elle</span> vraiment&nbsp;?</h2>
+        <p>4 questions pour identifier votre priorité : lancement produit, croissance, transformation digitale ou acquisition.</p>
+        <ul className="audit-themes">{['Product Launch', 'App Growth', 'Product Takeover', 'Digital Transformation', 'Audit First'].map(t => <li key={t}>{t}</li>)}</ul>
+        <p className="audit-note">Une orientation pour préparer l’échange, pas un audit complet : notre équipe affine ensuite avec vous.</p>
       </div>
       <div data-reveal><AuditDiagnostic /></div>
     </div></section>

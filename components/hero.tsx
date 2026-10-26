@@ -8,9 +8,9 @@ export default function Hero() {
       <span className="hero-badge">Product · Growth · Data</span>
       <h1 id="hero-title"><span>We build.</span> <span>We launch.</span> <em>We grow.</em></h1>
       <p className="hero-clean-sub">From product to measurable growth.</p>
-      <p className="hero-clean-body">Nous construisons des produits digitaux et des systèmes de croissance qui relient la technologie, l’acquisition et la data à des résultats business réels.</p>
+      <p className="hero-clean-body">Nous concevons, développons et faisons grandir des produits digitaux en combinant technologie, marketing et analyse de données pour générer des résultats business mesurables.</p>
       <div className="hero-clean-actions">
-        <Button href="#contact">Parlons de votre projet</Button>
+        <Button href="/contact">Parlons de votre projet</Button>
         <a className="button secondary" href="#realisations">Voir nos réalisations</a>
       </div>
     </div>

@@ -1,13 +1,14 @@
 import { ArrowRight, RadioTower, Code2, Megaphone, Layers3, Target, Users, Store, Download, UserPlus, UserCheck, ShoppingCart, CircleCheck, RefreshCw, Search, Wrench, ChartNoAxesCombined, TrendingUp, Smartphone, Rocket, Building2 } from 'lucide-react';
 import { Button, SectionHead, CTA } from '@/components/ui';
-import { projects, appFunnel, businessFunnel, kpiLevels, audiences, reasons, projectHighlights, pillars } from '@/lib/content';
+import { projects, doneResults, appFunnel, businessFunnel, kpiLevels, audiences, reasons, projectHighlights, pillars } from '@/lib/content';
 import Hero from '@/components/hero';
 import ConnectedGrowth from '@/components/connected-growth';
 import DoneTabs from '@/components/done-tabs';
 import GrowthSteps from '@/components/growth-steps';
 import AuditDiagnostic from '@/components/audit-diagnostic';
 import CountUp from '@/components/count-up';
-import WorkCards, { type WorkItem } from '@/components/work-cards';
+import { type WorkItem } from '@/components/work-cards';
+import PortfolioGallery from '@/components/portfolio-gallery';
 
 /* Homepage « Signal » — ordre du cahier des charges V5 §6. Les emplacements d'images restent réservés. */
 
@@ -39,7 +40,8 @@ const workItems: WorkItem[] = workGroups.flatMap(g => g.slugs.map(slug => ({
   sector: sectors[slug], flow: projectHighlights[slug].transformation,
   metric: projectHighlights[slug].metric, label: projectHighlights[slug].metricLabel, logo: `${slug}.png`,
 })));
-const proofs = ['omak', 'telecom', 'fnm'].map(slug => ({ slug, name: projects.find(p => p.slug === slug)!.name, ...projectHighlights[slug] }));
+/* Résultats affichés dans la section Transformation : mêmes chiffres validés que l'onglet Résultats. */
+const proofs = doneResults.filter(r => !r.client.startsWith('WashRoc'));
 const reasonIcons = [Layers3, Target, ChartNoAxesCombined, Users];
 const pillarIcons = { dev: Code2, marketing: Megaphone, results: TrendingUp } as const;
 const takeover = [
@@ -106,11 +108,13 @@ export default function Home() {
         <div className="eyebrow">DIGITAL TRANSFORMATION & LEAD GENERATION</div>
         <h2>Se digitaliser, ce n’est pas <em>refaire un site.</em></h2>
         <p className="split-lead">Présentez votre offre, attirez des prospects qualifiés et suivez leur parcours jusqu’à la vente, l’inscription ou l’installation.</p>
-        <div className="proof-rows">{proofs.map(p => <div className="proof-row" key={p.slug}>
-          <strong><CountUp value={p.metric ?? ''} /></strong>
-          <p>{p.metricLabel}<span>{p.name}</span></p>
+        <span className="proof-title">Résultats</span>
+        <div className="proof-band">{proofs.map(p => <div className="proof-stat" key={p.client}>
+          <span className="proof-client">{p.client}</span>
+          <strong><CountUp value={p.value} /><small>{p.unit}</small></strong>
+          <p>{p.label}</p>
         </div>)}</div>
-        <div className="split-foot"><Button href="#audit">Auditer mon acquisition</Button><a className="link-arrow" href="#realisations">Voir les cas FNM · OMAK · Telecom<ArrowRight size={16} strokeWidth={2} /></a></div>
+        <div className="split-foot"><Button href="#audit">Auditer mon acquisition</Button></div>
       </div>
       <div className="pipeline" data-reveal aria-label="Parcours d’un prospect, de l’offre au chiffre d’affaires">
         <div className="pipeline-head"><span>Parcours d’un prospect</span><span className="pipeline-live"><i />Suivi</span></div>
@@ -119,10 +123,10 @@ export default function Home() {
     </div></section>
 
     {/* 09 — Selected Work */}
-    <section className="section" id="realisations"><div className="container">
-      <SectionHead center eyebrow="SELECTED WORK" title="Des transformations," accent="pas des livraisons." lead="Six cas, deux terrains de jeu." />
-      <div data-reveal><WorkCards items={workItems} /></div>
-    </div></section>
+    <section className="section" id="realisations">
+      <div className="container"><SectionHead center eyebrow="SELECTED WORK" title="Des transformations," accent="pas des livraisons." lead="Contenus, vidéos, applications et sites : un aperçu du travail livré, secteur par secteur." /></div>
+      <div className="pg-wrap" data-reveal><PortfolioGallery /></div>
+    </section>
 
     {/* 10 — Measurement & Data */}
     <section className="section alt" id="mesure"><div className="container">
@@ -190,7 +194,9 @@ export default function Home() {
     </section>
 
     {/* 15 — Growth Audit */}
-    <section className="section audit" id="audit"><div className="container audit-inner">
+    <section className="section audit" id="audit">
+      <div className="audit-aurora" aria-hidden="true"><i /><i /><i /><i /></div>
+      <div className="container audit-inner">
       <div className="audit-copy" data-reveal>
         <div className="eyebrow">GROWTH AUDIT</div>
         <h2>Où votre croissance <span style={{ whiteSpace: 'nowrap' }}>bloque-t-elle</span> vraiment&nbsp;?</h2>

@@ -14,12 +14,12 @@ import PortfolioGallery from '@/components/portfolio-gallery';
 
 /* Logos clients : fichiers détourés dans /images/logos, tailles équilibrées en CSS. */
 const clients = [
-  { name: 'DROK', src: 'drok.png', key: 'drok', tag: 'Livraison' },
-  { name: 'WashRoc', src: 'washroc.png', key: 'washroc', tag: 'Lavage auto' },
-  { name: 'Privu', src: 'privu.png', key: 'privu', tag: 'Marketplace vidéo' },
-  { name: 'OMAK Service', src: 'omak.png', key: 'omak', tag: 'Services auto' },
-  { name: 'FNM', src: 'fnm.png', key: 'fnm', tag: 'Formation' },
-  { name: 'Maroc Telecom', src: 'telecom.png', key: 'telecom', tag: 'Télécom' },
+  { name: 'DROK', src: 'drok.webp', key: 'drok', tag: 'Livraison' },
+  { name: 'WashRoc', src: 'washroc.webp', key: 'washroc', tag: 'Lavage auto' },
+  { name: 'Privu', src: 'privu.webp', key: 'privu', tag: 'Marketplace vidéo' },
+  { name: 'OMAK Service', src: 'omak.webp', key: 'omak', tag: 'Services auto' },
+  { name: 'FNM', src: 'fnm.webp', key: 'fnm', tag: 'Formation' },
+  { name: 'Maroc Telecom', src: 'telecom.webp', key: 'telecom', tag: 'Télécom' },
 ];
 const sectors: Record<string, string> = {
   drok: 'Livraison à la demande · Mohammedia',
@@ -38,7 +38,7 @@ const workItems: WorkItem[] = workGroups.flatMap(g => g.slugs.map(slug => ({
   slug, name: projects.find(p => p.slug === slug)!.name,
   group: g.label.startsWith('Product') ? 'Product & App Growth' : 'Transformation & Lead Gen',
   sector: sectors[slug], flow: projectHighlights[slug].transformation,
-  metric: projectHighlights[slug].metric, label: projectHighlights[slug].metricLabel, logo: `${slug}.png`,
+  metric: projectHighlights[slug].metric, label: projectHighlights[slug].metricLabel, logo: `${slug}.webp`,
 })));
 /* Résultats affichés dans la section Transformation : mêmes chiffres validés que l'onglet Résultats. */
 const proofs = doneResults.filter(r => !r.client.startsWith('WashRoc'));
@@ -98,7 +98,7 @@ export default function Home() {
         <div className="split-foot"><Button href="#audit">Auditer la croissance de mon app</Button></div>
       </div>
       <figure className="apps-visual" data-reveal>
-        <img src="/images/app-growth/apps-tracking-v2.webp" width={1968} height={1554} alt="Applications WashRoc et DROK, avec les événements suivis de l’installation au réachat : app_install, sign_up, add_to_cart, first_order, repeat_order." />
+        <img src="/images/app-growth/apps-tracking-v2.webp" width={1440} height={1137} loading="lazy" decoding="async" alt="Applications WashRoc et DROK, avec les événements suivis de l’installation au réachat : app_install, sign_up, add_to_cart, first_order, repeat_order." />
       </figure>
     </div></section>
 
@@ -175,7 +175,7 @@ export default function Home() {
     <section className="section" id="agence"><div className="container">
       <SectionHead center eyebrow="CORE TEAM" title="Rencontrez" accent="notre core team." lead="La stratégie, la technologie, le contenu et la création, ensemble." />
       <div className="team-grid" data-reveal>{team.map(([name, role, photo]) => <article className="team-card" key={name} tabIndex={0}>
-        <img src={`/images/team/${photo}.webp`} width={1086} height={1448} alt={`${name}, ${role}`} loading="lazy" />
+        <img src={`/images/team/${photo}.webp`} width={760} height={1013} alt={`${name}, ${role}`} loading="lazy" decoding="async" />
         <div className="team-info"><h3>{name}</h3><span>{role}</span></div>
       </article>)}</div>
     </div></section>

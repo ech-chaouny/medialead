@@ -28,7 +28,7 @@ export default function Header() {
 
   return <header className={`site-header${scrolled ? ' is-scrolled' : ''}${open ? ' is-open' : ''}`}>
     <div className="nav-wrap container">
-      <Link href="/" className="brand" aria-label="Medialead — Accueil" onClick={() => setOpen(false)}><img src="/images/medialead-logo-dark.png" alt="Medialead" width="170" height="36" /></Link>
+      <Link href="/" className="brand" aria-label="Medialead — Accueil" onClick={() => setOpen(false)}><img src="/images/medialead-logo-dark.webp" alt="Medialead" width="170" height="36" /></Link>
       <nav aria-label="Navigation principale" className={open ? 'nav open' : 'nav'}>
         {links.map(([href, label]) => <a key={href} href={href} className={active === href ? 'is-active' : undefined} aria-current={active === href ? 'location' : undefined} onClick={() => setOpen(false)}>{label}</a>)}
         <a className="button nav-mobile-cta" href="/contact" onClick={() => setOpen(false)}><span className="button-label">Parlons de votre projet</span><ArrowRight className="button-icon" size={16} strokeWidth={1.8} aria-hidden="true" /></a>

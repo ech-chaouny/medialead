@@ -10,7 +10,7 @@ export default function Footer() {
     <div className="container">
       <div className="footer-main">
         <div className="footer-brand">
-          <Link href="/" aria-label="Medialead — Accueil"><img src="/images/medialead-logo.png" alt="Medialead" width="190" height="40" /></Link>
+          <Link href="/" aria-label="Medialead — Accueil"><img src="/images/medialead-logo.webp" alt="Medialead" width="190" height="40" /></Link>
           <p>Le produit, le marketing et la data. Une même direction : votre croissance.</p>
           <a className="footer-cta" href="/contact">Parlons de votre projet<ArrowUpRight size={16} strokeWidth={2} aria-hidden="true" /></a>
         </div>

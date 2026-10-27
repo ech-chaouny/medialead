@@ -1,21 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
 
 /* Polices du style Simple (reprises du projet OMAK) : NewBlack pour les titres, Grift pour le texte. */
-@font-face { font-family: "NewBlack"; src: url("/fonts/NewBlackTypeface-Regular.otf") format("opentype"); font-weight: 400; font-display: swap; }
-@font-face { font-family: "NewBlack"; src: url("/fonts/NewBlackTypeface-Medium.otf") format("opentype"); font-weight: 500; font-display: swap; }
-@font-face { font-family: "NewBlack"; src: url("/fonts/NewBlackTypeface-SemiBold.otf") format("opentype"); font-weight: 600; font-display: swap; }
-@font-face { font-family: "NewBlack"; src: url("/fonts/NewBlackTypeface-Bold.otf") format("opentype"); font-weight: 700; font-display: swap; }
-@font-face { font-family: "NewBlack"; src: url("/fonts/NewBlackTypeface-ExtraBold.otf") format("opentype"); font-weight: 800 900; font-display: swap; }
-@font-face { font-family: "NewBlack"; src: url("/fonts/grift-regular.otf") format("opentype"); font-weight: 400; font-display: swap; unicode-range: U+2018-2019, U+201C-201D; }
-@font-face { font-family: "NewBlack"; src: url("/fonts/grift-medium.otf") format("opentype"); font-weight: 500; font-display: swap; unicode-range: U+2018-2019, U+201C-201D; }
-@font-face { font-family: "NewBlack"; src: url("/fonts/grift-semibold.otf") format("opentype"); font-weight: 600; font-display: swap; unicode-range: U+2018-2019, U+201C-201D; }
-@font-face { font-family: "NewBlack"; src: url("/fonts/grift-bold.otf") format("opentype"); font-weight: 700; font-display: swap; unicode-range: U+2018-2019, U+201C-201D; }
-@font-face { font-family: "NewBlack"; src: url("/fonts/grift-extrabold.otf") format("opentype"); font-weight: 800 900; font-display: swap; unicode-range: U+2018-2019, U+201C-201D; }
-@font-face { font-family: "Grift"; src: url("/fonts/grift-regular.otf") format("opentype"); font-weight: 400; font-display: swap; }
-@font-face { font-family: "Grift"; src: url("/fonts/grift-medium.otf") format("opentype"); font-weight: 500; font-display: swap; }
-@font-face { font-family: "Grift"; src: url("/fonts/grift-semibold.otf") format("opentype"); font-weight: 600; font-display: swap; }
-@font-face { font-family: "Grift"; src: url("/fonts/grift-bold.otf") format("opentype"); font-weight: 700; font-display: swap; }
-@font-face { font-family: "Grift"; src: url("/fonts/grift-extrabold.otf") format("opentype"); font-weight: 800 900; font-display: swap; }
+@font-face { font-family: "NewBlack"; src: url("/fonts/NewBlackTypeface-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "NewBlack"; src: url("/fonts/NewBlackTypeface-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "NewBlack"; src: url("/fonts/NewBlackTypeface-SemiBold.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "NewBlack"; src: url("/fonts/NewBlackTypeface-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "NewBlack"; src: url("/fonts/NewBlackTypeface-ExtraBold.woff2") format("woff2"); font-weight: 800 900; font-display: swap; }
+@font-face { font-family: "NewBlack"; src: url("/fonts/grift-regular.woff2") format("woff2"); font-weight: 400; font-display: swap; unicode-range: U+2018-2019, U+201C-201D; }
+@font-face { font-family: "NewBlack"; src: url("/fonts/grift-medium.woff2") format("woff2"); font-weight: 500; font-display: swap; unicode-range: U+2018-2019, U+201C-201D; }
+@font-face { font-family: "NewBlack"; src: url("/fonts/grift-semibold.woff2") format("woff2"); font-weight: 600; font-display: swap; unicode-range: U+2018-2019, U+201C-201D; }
+@font-face { font-family: "NewBlack"; src: url("/fonts/grift-bold.woff2") format("woff2"); font-weight: 700; font-display: swap; unicode-range: U+2018-2019, U+201C-201D; }
+@font-face { font-family: "NewBlack"; src: url("/fonts/grift-extrabold.woff2") format("woff2"); font-weight: 800 900; font-display: swap; unicode-range: U+2018-2019, U+201C-201D; }
+@font-face { font-family: "Grift"; src: url("/fonts/grift-regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Grift"; src: url("/fonts/grift-medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Grift"; src: url("/fonts/grift-semibold.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Grift"; src: url("/fonts/grift-bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Grift"; src: url("/fonts/grift-extrabold.woff2") format("woff2"); font-weight: 800 900; font-display: swap; }
 
 /* ==========================================================================
    Medialead — « Signal »
@@ -1843,3 +1843,26 @@ h1, h2, h3 { word-spacing: -0.06em; }
    sticky, ce qui le décalait de 120px sur le simulateur. */
 .audit-aurora { display: none; }
 #audit .audit-copy { top: auto; }
+
+/* ---------- Correctifs responsive (mobile) ---------- */
+@media (max-width: 900px) {
+  /* « Déjà fait » : une seule colonne (la règle desktop à deux colonnes écrasait celle du mobile). */
+  #deja-fait .done-grid { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  #deja-fait .done-copy { padding: 18px 8px 4px; }
+  #deja-fait .done-copy h3 { font-size: 22px; }
+  #deja-fait .done-stage { min-height: 0; }
+  #deja-fait .done-screens { max-width: 320px; }
+}
+@media (max-width: 560px) {
+  /* Pied de page : marque et contact en pleine largeur, Expertises et Navigation côte à côte. */
+  .site-footer .footer-main { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 20px; padding-bottom: 48px; }
+  .site-footer .footer-brand, .site-footer .footer-main > div:last-child { grid-column: 1 / -1; }
+  .site-footer .footer-main > :not(:first-child) > a, .footer-place { font-size: 14px; }
+  /* CTA final : titre un peu plus petit pour éviter un mot seul en fin de ligne. */
+  #contact .cta-title { font-size: 34px; }
+  /* Galerie : légende plus compacte sur téléphone. */
+  .pg-cap { padding: 28px 10px 10px; }
+  .pg-cap strong { font-size: 13px; }
+  .pg-cap em { display: none; }
+  .pg-kind { padding: 3px 7px; font-size: 10px; }
+}

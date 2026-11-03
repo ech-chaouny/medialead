@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { pillars, doneDev, doneContent, doneResults, doneTracked } from '@/lib/content';
 import { MediaSlot } from '@/components/ui';
 import CountUp from '@/components/count-up';
+import BannerScroller from '@/components/banner-scroller';
 import { UtensilsCrossed, Droplets, Store, GraduationCap, TrendingUp, RadioTower, createLucideIcon, type LucideIcon } from 'lucide-react';
 
 /* V5 §5.5 — ce que nous avons déjà fait, par domaine. */
@@ -58,7 +59,7 @@ export default function DoneTabs() {
           <ul className="done-chips">{doneDev.map(d => <li key={d}>{d}</li>)}</ul>
           <SectorList items={builds} />
         </div>
-        <div className="done-stage"><div className="done-screens">{[1, 2, 3, 4].map(n => <MediaSlot key={n} label={`Écran produit ${n}`} className="slot-shot" />)}</div></div>
+        <div className="done-stage is-scroller"><BannerScroller /></div>
       </div>}
       {active === 1 && <div className="done-grid">
         <div className="done-copy">

@@ -1866,3 +1866,122 @@ h1, h2, h3 { word-spacing: -0.06em; }
   .pg-cap em { display: none; }
   .pg-kind { padding: 3px 7px; font-size: 10px; }
 }
+
+/* ---------- 09 Réalisations — vitrine de bannières qui défilent seules ---------- */
+.sc-stage { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; height: clamp(560px, 62vw, 820px); overflow: hidden; padding: 0 16px; border: 1px solid #efe8e1; border-radius: 28px; background: #faf7f3; -webkit-mask-image: linear-gradient(180deg, transparent, #000 9%, #000 91%, transparent); mask-image: linear-gradient(180deg, transparent, #000 9%, #000 91%, transparent); }
+.sc-col { position: relative; min-width: 0; }
+.sc-track { display: flex; flex-direction: column; gap: 16px; padding-block: 8px; }
+@media (prefers-reduced-motion: no-preference) {
+  .sc-track { animation: sc-up var(--dur, 40s) linear infinite; }
+  .sc-col.is-down .sc-track { animation-name: sc-down; }
+  .sc-col:hover .sc-track { animation-play-state: paused; }
+}
+/* -50 % = exactement un jeu de bannières (le padding vertical vaut la moitié de l'écart). */
+@keyframes sc-up { from { transform: translateY(0); } to { transform: translateY(-50%); } }
+@keyframes sc-down { from { transform: translateY(-50%); } to { transform: translateY(0); } }
+.sc-card { position: relative; overflow: hidden; margin: 0; border-radius: 16px; background: #f1ebe4; box-shadow: 0 1px 2px rgb(22 18 14 / 6%), 0 16px 34px -22px rgb(22 18 14 / 35%); }
+.sc-card.is-wide { aspect-ratio: 16 / 9; }
+.sc-card.is-tall { aspect-ratio: 4 / 5; }
+.sc-card img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .8s cubic-bezier(.22, .61, .36, 1); }
+.sc-card:hover img { transform: scale(1.03); }
+.sc-empty { display: grid; place-content: center; justify-items: center; gap: 6px; width: 100%; height: 100%; text-align: center; color: #fff; }
+.sc-empty strong { font-family: var(--display); font-size: clamp(20px, 2vw, 28px); font-weight: 700; }
+.sc-empty span { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; opacity: .8; }
+.sc-livraison { background: radial-gradient(circle at 80% 20%, #ff9a3d, transparent 55%), #e85a00; }
+.sc-lavage { background: radial-gradient(circle at 80% 20%, #3ee0c4, transparent 55%), #1d4fd8; }
+.sc-auto { background: radial-gradient(circle at 80% 20%, #ffd34d, transparent 55%), #1a1a1a; }
+.sc-education { background: radial-gradient(circle at 80% 20%, #8fd3b6, transparent 55%), #1f6f5c; }
+.sc-marketplace { background: radial-gradient(circle at 80% 20%, #ffc76b, transparent 55%), #6b3fd8; }
+.sc-telecom { background: radial-gradient(circle at 80% 20%, #ff7a7a, transparent 55%), #c8102e; }
+.sc-cap { position: absolute; inset: auto 0 0; display: flex; flex-direction: column; gap: 2px; padding: 36px 16px 14px; background: linear-gradient(180deg, transparent, rgb(12 9 7 / 80%)); color: #fff; opacity: 0; transform: translateY(8px); transition: opacity .35s ease, transform .45s cubic-bezier(.22, .61, .36, 1); }
+.sc-cap strong { font-size: 15px; font-weight: 700; }
+.sc-cap span { font-size: 12px; color: rgb(255 255 255 / 78%); }
+.sc-card:hover .sc-cap { opacity: 1; transform: none; }
+@media (max-width: 900px) {
+  .sc-stage { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; height: 620px; padding: 0 10px; border-radius: 20px; }
+  .sc-col:nth-child(3) { display: none; }
+  .sc-track { gap: 10px; padding-block: 5px; }
+  .sc-card { border-radius: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sc-stage { height: auto; -webkit-mask-image: none; mask-image: none; }
+  .sc-card[aria-hidden] { display: none; }
+}
+
+/* Bannières qui défilent dans la scène de l'onglet Développement (deux colonnes, sans cadre). */
+#deja-fait .done-stage.is-scroller { display: block; padding: 0; }
+#deja-fait .done-stage.is-scroller::before { display: none; }
+.sc-stage.is-compact { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; height: 100%; min-height: 520px; padding: 0 14px; border: 0; border-radius: inherit; background: none; }
+.sc-stage.is-compact .sc-track { gap: 12px; padding-block: 6px; }
+.sc-stage.is-compact .sc-col:nth-child(3) { display: none; }
+#deja-fait .done-stage.is-scroller .sc-card { position: relative; border: 0; background: #f1ebe4; -webkit-backdrop-filter: none; backdrop-filter: none; }
+@media (max-width: 900px) {
+  .sc-stage.is-compact { min-height: 0; height: 460px; padding: 0 10px; }
+  .sc-stage.is-compact .sc-track { gap: 10px; padding-block: 5px; }
+}
+
+/* Bannières de l'onglet Développement, version sobre : hauteur fixe, cartes de même format,
+   emplacements neutres (point de couleur du projet) en attendant les visuels. */
+#deja-fait .done-stage.is-scroller { height: 540px; min-height: 0; }
+.sc-stage.is-compact { height: 100%; min-height: 0; }
+.sc-stage.is-compact .sc-card { aspect-ratio: 4 / 3; border-radius: 14px; box-shadow: 0 1px 2px rgb(22 18 14 / 5%), 0 10px 24px -18px rgb(22 18 14 / 30%); }
+.sc-stage.is-compact .sc-empty { gap: 8px; background: linear-gradient(160deg, #fff, #fbf6f0); color: #16120e; }
+.sc-stage.is-compact .sc-empty i { width: 10px; height: 10px; border-radius: 50%; background: var(--dot, var(--orange)); box-shadow: 0 0 0 5px color-mix(in srgb, var(--dot, var(--orange)) 15%, transparent); }
+.sc-stage.is-compact .sc-empty strong { font-size: clamp(18px, 1.6vw, 22px); }
+.sc-stage.is-compact .sc-empty span { color: #9a918a; opacity: 1; letter-spacing: 0.06em; }
+.sc-stage.is-compact .sc-livraison { --dot: #e85a00; }
+.sc-stage.is-compact .sc-lavage { --dot: #1d4fd8; }
+.sc-stage.is-compact .sc-auto { --dot: #d4a017; }
+.sc-stage.is-compact .sc-education { --dot: #1f6f5c; }
+.sc-stage.is-compact .sc-marketplace { --dot: #6b3fd8; }
+.sc-stage.is-compact .sc-telecom { --dot: #c8102e; }
+@media (max-width: 900px) { #deja-fait .done-stage.is-scroller { height: 420px; } .sc-stage.is-compact { height: 100%; } }
+
+/* Bannières pleine largeur dans la scène : une colonne, format 16:9, toute la largeur disponible. */
+.sc-stage.is-compact { width: 100%; grid-template-columns: minmax(0, 1fr); padding: 0 18px; }
+.sc-stage.is-compact .sc-card { aspect-ratio: 16 / 9; border-radius: 16px; }
+.sc-stage.is-compact .sc-track { gap: 16px; padding-block: 8px; }
+.sc-stage.is-compact .sc-empty strong { font-size: clamp(24px, 2.4vw, 34px); }
+@media (max-width: 900px) { .sc-stage.is-compact { padding: 0 12px; } .sc-stage.is-compact .sc-track { gap: 12px; padding-block: 6px; } }
+
+/* Défilement fluide : une bannière par projet, piste sur sa propre couche GPU, pas d'ombre ni d'effet au survol pendant le mouvement. */
+.sc-stage.is-compact .sc-track { will-change: transform; backface-visibility: hidden; transform: translate3d(0, 0, 0); }
+.sc-stage.is-compact .sc-card { box-shadow: 0 0 0 1px rgb(22 18 14 / 6%); transform: translateZ(0); }
+.sc-stage.is-compact .sc-card img { transition: none; }
+.sc-stage.is-compact .sc-card:hover img { transform: none; }
+@keyframes sc-up { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(0, -50%, 0); } }
+@keyframes sc-down { from { transform: translate3d(0, -50%, 0); } to { transform: translate3d(0, 0, 0); } }
+
+/* Plus rapide et plus léger : pas de masque de fondu (repeint à chaque image), pause hors écran. */
+.sc-stage.is-compact { -webkit-mask-image: none; mask-image: none; contain: layout paint; }
+.sc-stage.is-compact.is-off .sc-track { animation-play-state: paused; }
+
+/* Vitrine des bannières : scène sombre et sobre pour que chaque bannière ressorte,
+   fondu haut/bas par calques fixes (pas de masque), emplacements en attente plus lisibles. */
+#deja-fait .done-stage.is-scroller { border: 1px solid #2a2420; background: radial-gradient(rgb(255 255 255 / 5%) 1px, transparent 1.4px) 0 0 / 20px 20px, #16120f; }
+.sc-stage.is-compact { padding: 0 22px; }
+.sc-stage.is-compact::before, .sc-stage.is-compact::after { content: ""; position: absolute; left: 0; right: 0; z-index: 2; height: 64px; pointer-events: none; }
+.sc-stage.is-compact::before { top: 0; background: linear-gradient(#16120f, rgb(22 18 15 / 0%)); }
+.sc-stage.is-compact::after { bottom: 0; background: linear-gradient(rgb(22 18 15 / 0%), #16120f); }
+.sc-stage.is-compact .sc-track { gap: 20px; padding-block: 10px; }
+#deja-fait .done-stage.is-scroller .sc-card { border-radius: 14px; background: #1f1a17; box-shadow: 0 0 0 1px rgb(255 255 255 / 7%), 0 18px 40px -24px rgb(0 0 0 / 80%); }
+.sc-stage.is-compact .sc-empty { gap: 10px; background: radial-gradient(110% 90% at 100% 0%, color-mix(in srgb, var(--dot, var(--orange)) 34%, transparent), transparent 62%), linear-gradient(160deg, #241e1a, #171310); color: #fff; }
+.sc-stage.is-compact .sc-empty i { box-shadow: 0 0 0 5px color-mix(in srgb, var(--dot, var(--orange)) 22%, transparent), 0 0 18px var(--dot, var(--orange)); }
+.sc-stage.is-compact .sc-empty span { color: rgb(255 255 255 / 55%); }
+@media (max-width: 900px) {
+  .sc-stage.is-compact { padding: 0 14px; }
+  .sc-stage.is-compact::before, .sc-stage.is-compact::after { height: 44px; }
+  .sc-stage.is-compact .sc-track { gap: 14px; padding-block: 7px; }
+}
+.sc-stage.is-compact::before, .sc-stage.is-compact::after { display: none; }
+#deja-fait .done-stage.is-scroller { border: 0; }
+
+/* Scène claire : toile crème quadrillée de points, deux halos orange aux coins, bannières posées avec une ombre chaude. */
+#deja-fait .done-stage.is-scroller {
+  background:
+    radial-gradient(rgb(154 74 0 / 13%) 1px, transparent 1.4px) 0 0 / 18px 18px,
+    radial-gradient(60% 50% at 100% 0%, rgb(255 139 0 / 22%), transparent 70%),
+    radial-gradient(55% 45% at 0% 100%, rgb(255 176 74 / 24%), transparent 70%),
+    #fff8ef;
+}
+#deja-fait .done-stage.is-scroller .sc-card { background: #f1ebe4; box-shadow: 0 0 0 1px rgb(255 255 255 / 70%), 0 2px 4px rgb(120 60 0 / 8%), 0 22px 40px -22px rgb(120 60 0 / 45%); }

@@ -8,7 +8,7 @@ import GrowthSteps from '@/components/growth-steps';
 import AuditDiagnostic from '@/components/audit-diagnostic';
 import CountUp from '@/components/count-up';
 import { type WorkItem } from '@/components/work-cards';
-import PortfolioGallery from '@/components/portfolio-gallery';
+import Realisations from '@/components/realisations';
 
 /* Homepage « Signal » — ordre du cahier des charges V5 §6. Les emplacements d'images restent réservés. */
 
@@ -122,10 +122,14 @@ export default function Home() {
       </div>
     </div></section>
 
-    {/* 09 — Selected Work */}
+    {/* 09 — Réalisations : quatre rangées défilantes, données dans lib/realisations.json */}
     <section className="section" id="realisations">
-      <div className="container"><SectionHead center eyebrow="SELECTED WORK" title="Des transformations," accent="pas des livraisons." lead="Contenus, vidéos, applications et sites : un aperçu du travail livré, secteur par secteur." /></div>
-      <div className="pg-wrap" data-reveal><PortfolioGallery /></div>
+      <div className="container"><SectionHead center eyebrow="RÉALISATIONS" title="Des transformations," accent="pas des livraisons." lead="Applications, systèmes et contenus : un aperçu du travail livré pour nos clients." /></div>
+      <Realisations />
+      <div className="container rz-cta" data-reveal>
+        <h3>Un projet en tête ?</h3>
+        <Button href="/contact">Parlons de votre projet</Button>
+      </div>
     </section>
 
     {/* 10 — Measurement & Data */}

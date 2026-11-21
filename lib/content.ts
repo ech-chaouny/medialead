@@ -108,17 +108,17 @@ export const pillars = [
 export const doneDev = ['Applications mobiles', 'Sites web', 'Reprises de produits', 'Plateformes & marketplaces', 'Dashboards'];
 export const doneContent = ['Vidéos', 'UGC', 'Créatives Meta', 'Posts orientés performance'];
 export const doneResults = [
-  { value: '+500K', unit: 'MAD', label: 'de chiffre d’affaires généré en moins de 3 mois', client: 'OMAK Service' },
-  { value: '200K+', unit: 'MAD / mois', label: 'de chiffre d’affaires, depuis 2023', client: 'Réseau Commercial Telecom' },
-  { value: '70K', unit: 'MAD / mois', label: 'de chiffre d’affaires dès le lancement', client: 'WashRoc' },
-  { value: '10+', unit: 'inscriptions / mois', label: 'sur les campagnes actives', client: 'FNM · depuis 2022' },
-];
+  { id: 'omak', value: '+500 K', unit: 'MAD', label: 'de chiffre d’affaires en moins de 3 mois' },
+  { id: 'telecom', value: '+200 K', unit: 'MAD / mois', label: 'de chiffre d’affaires, depuis 2023' },
+  { id: 'washroc', value: '70 K', unit: 'MAD / mois', label: 'de chiffre d’affaires dès le lancement' },
+  { id: 'fnm', value: '+10', unit: 'inscriptions / mois', label: 'sur les campagnes actives, depuis 2022' },
+] as const;
 export const doneTracked = [
-  { label: 'Commandes', client: 'DROK' },
-  { label: 'Lavages réalisés', client: 'WashRoc' },
-  { label: 'Installations', client: 'Réseau Telecom' },
-  { label: 'Étudiants inscrits', client: 'FNM' },
-];
+  { label: 'Commandes', id: 'drok' },
+  { label: 'Lavages réalisés', id: 'washroc' },
+  { label: 'Installations', id: 'telecom' },
+  { label: 'Étudiants inscrits', id: 'fnm' },
+] as const;
 
 /* Growth System — texte de chaque étape (même ordre que `stages`). */
 export const stageDetails = [
@@ -130,3 +130,60 @@ export const stageDetails = [
   'Une expérience et des relances qui donnent aux clients une raison de revenir.',
   'Des décisions d’investissement éclairées par les résultats et la capacité opérationnelle.',
 ];
+
+/* --- Version anglaise des contenus de l'accueil (mêmes clés, même ordre). --- */
+const en = {
+  stages: [['Product', 'Build the right product.'], ['Measure', 'Track the actions that matter.'], ['Acquire', 'Attract the right people.'], ['Activate', 'Create the first spark.'], ['Convert', 'Turn interest into customers.'], ['Retain', 'Give them a reason to come back.'], ['Scale', 'Grow on solid foundations.']],
+  stageDetails: [
+    'A product aligned with your users’ needs and your business priorities.',
+    'Reliable events to understand the journey, from first contact to the action that counts.',
+    'Acquisition built around the audience, the offer and the right channels.',
+    'A journey that removes friction and supports first use.',
+    'Actions tied to orders, appointments and sales.',
+    'An experience and follow-ups that give customers a reason to return.',
+    'Investment decisions informed by results and operational capacity.',
+  ],
+  appFunnel: ['Ad', 'Store', 'Install', 'Sign-up', 'Activation', 'First order / booking', 'Completed action', 'Repeat purchase'],
+  businessFunnel: ['Offer', 'Digital presence', 'Acquisition', 'Lead', 'Qualification', 'Sale / Enrolment / Installation', 'Revenue'],
+  kpiLevels: [
+    { level: 'MEDIA', question: 'Does the message attract?', kpis: ['Impressions', 'CPM', 'CTR', 'CPC'] },
+    { level: 'ACQUISITION', question: 'What does the action cost?', kpis: ['CPL', 'CPA', 'CPI'] },
+    { level: 'QUALITY', question: 'Is it the right audience?', kpis: ['Contact made', 'Qualified lead', 'Activation'] },
+    { level: 'BUSINESS', question: 'What value is created?', kpis: ['Order', 'Sale', 'Revenue', 'CAC / LTV'] },
+  ],
+  audiences: [
+    { title: 'A product already live', situation: 'An app, SaaS, marketplace or platform in operation.', need: 'Product, tracking, acquisition or scaling is holding you back.', answer: 'Product Growth · App Marketing' },
+    { title: 'A launch to prepare', situation: 'A serious project, a budget and a business model.', need: 'Turn an idea into a measurable product, ready for its market.', answer: 'Build & Launch' },
+    { title: 'A business to digitise', situation: 'An established business with traditional acquisition.', need: 'Structure the offer, the digital presence and demand generation.', answer: 'Digital Transformation · Lead Generation' },
+  ],
+  reasons: [
+    { title: 'Product + Growth', text: 'The same team builds the product and runs acquisition. Nothing gets lost between two providers.' },
+    { title: 'Business first', text: 'We start with your business model, your margins and your capacity to serve demand.' },
+    { title: 'Built-in measurement', text: 'The events that matter are defined with the product, not added afterwards.' },
+    { title: 'One integrated team', text: 'Strategy, technology, creative and project follow-up work on the same plan.' },
+  ],
+  pillars: [
+    { key: 'dev', title: 'Development', text: 'We design, take over and evolve digital products.' },
+    { key: 'marketing', title: 'Digital Marketing', text: 'We structure acquisition, offers, creatives, lead generation and conversion.' },
+    { key: 'results', title: 'Results', text: 'We steer all the way to the metric that matters: order, wash, enrolment, installation, revenue.' },
+  ],
+  doneDev: ['Mobile apps', 'Websites', 'Product takeovers', 'Platforms & marketplaces', 'Dashboards'],
+  doneContent: ['Videos', 'UGC', 'Meta creatives', 'Performance-driven posts'],
+  doneResults: [
+    { id: 'omak', value: '+500 K', unit: 'MAD', label: 'in revenue in under 3 months' },
+    { id: 'telecom', value: '+200 K', unit: 'MAD / month', label: 'in revenue, since 2023' },
+    { id: 'washroc', value: '70 K', unit: 'MAD / month', label: 'in revenue from launch' },
+    { id: 'fnm', value: '+10', unit: 'enrolments / month', label: 'on active campaigns, since 2022' },
+  ],
+  doneTracked: [
+    { label: 'Orders', id: 'drok' },
+    { label: 'Completed washes', id: 'washroc' },
+    { label: 'Installations', id: 'telecom' },
+    { label: 'Enrolled students', id: 'fnm' },
+  ],
+} as const;
+
+const fr = { stages, stageDetails, appFunnel, businessFunnel, kpiLevels, audiences, reasons, pillars, doneDev, doneContent, doneResults, doneTracked };
+
+/* Contenus de l'accueil dans la langue de la page. */
+export const contentFor = (lang: 'fr' | 'en') => (lang === 'en' ? en : fr) as unknown as typeof fr;

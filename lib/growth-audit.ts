@@ -125,14 +125,14 @@ export const resultCopy: Record<Category, { title: string; diagnostic: string; p
     diagnostic: 'Votre produit existe déjà. Le principal enjeu est maintenant de relier acquisition, activation, conversion et rétention à des résultats business mesurables.',
     priorities: ['Vérifier le tracking et les events réellement utiles.', 'Identifier où le funnel perd les utilisateurs.', 'Optimiser l’acquisition sur la première action business et non sur l’install uniquement.'],
     service: 'App Growth Audit + Tracking + Funnel Optimization + Acquisition',
-    cta: 'Auditer la croissance de mon app', secondaryCta: 'Voir le cas DROK / WashRoc',
+    cta: 'Auditer la croissance de mon app', secondaryCta: 'Voir les applications livrées',
   },
   product_takeover: {
     title: 'Votre priorité : Product Takeover',
     diagnostic: 'Le frein principal semble être la base produit. Avant d’investir davantage dans la croissance, il faut sécuriser ce qui existe, reprendre ce qui bloque et remettre le produit en capacité d’évoluer.',
     priorities: ['Audit technique et produit.', 'Cartographie des risques, dette technique et blocages.', 'Roadmap de reprise, stabilisation et évolution.'],
     service: 'Product Audit + Technical Review + Takeover Roadmap',
-    cta: 'Faire auditer mon produit', secondaryCta: 'Voir le cas WashRoc',
+    cta: 'Faire auditer mon produit', secondaryCta: 'Voir une reprise de produit',
   },
   digital_transformation: {
     title: 'Votre priorité : Digital Transformation & Lead Generation',
@@ -149,3 +149,29 @@ export const resultCopy: Record<Category, { title: string; diagnostic: string; p
     cta: 'Réserver un diagnostic', secondaryCta: 'Parler de ma situation',
   },
 };
+
+/* --- Version anglaise du simulateur : mêmes identifiants, seuls les textes changent. Le calcul et l'API restent identiques. --- */
+const questionsEn: Record<Question['id'], { step: string; title: string; help?: string }> = {
+  q1: { step: 'Starting point', title: 'What is your starting point today?', help: 'Choose the situation closest to your current reality.' },
+  q2: { step: 'Main blocker', title: 'What is holding you back the most today?' },
+  q3: { step: 'Existing assets', title: 'What do you already have today?' },
+  q4: { step: '90-day goal', title: 'What result do you most want to achieve in the next 90 days?' },
+};
+const optionsEn: Record<string, string> = {
+  q1_launch: 'We are preparing to launch a new digital product', q1_app: 'We already have an app / platform, but growth is stuck', q1_takeover: 'We have an existing product that needs to be taken over, fixed or evolved', q1_business: 'We have an existing business and want to go digital / generate leads', q1_unknown: 'We don’t know exactly where the blocker is yet',
+  q2_product: 'The product isn’t ready or solid enough yet', q2_tracking: 'Tracking / data don’t let us steer properly', q2_conversion: 'We have traffic / users, but not enough conversions', q2_demand: 'We can’t generate steady demand', q2_operations: 'Our offer or operations aren’t structured to scale yet',
+  q3_mvp: 'A clear idea / an MVP, but no real launch yet', q3_launched: 'A launched product with users or customers', q3_legacy: 'An existing product that is hard to evolve', q3_selling: 'A business that already sells, with loosely structured digital acquisition', q3_weak: 'A weak digital presence or a website that isn’t doing its job',
+  q4_launch: 'Launch a digital product properly', q4_app: 'Improve an app’s activation, conversion or retention', q4_takeover: 'Take over an existing product and make it scalable', q4_leads: 'Generate more leads, sales, enrolments or installations', q4_clarify: 'Clarify the priority before investing more',
+};
+const resultCopyEn: typeof resultCopy = {
+  product_launch: { title: 'Your priority: Product Launch', diagnostic: 'Your main challenge isn’t scaling yet. The priority is to prepare a product, tracking and a launch able to support the growth that follows.', priorities: ['Scope the version to launch and avoid over-building.', 'Set up tracking of key actions before acquisition.', 'Build the launch strategy and the first activation funnel.'], service: 'Product Strategy + Development + Launch + Measurement', cta: 'Talk about my launch', secondaryCta: 'See a Product / Launch case' },
+  app_growth: { title: 'Your priority: App Growth', diagnostic: 'Your product already exists. The main challenge now is to connect acquisition, activation, conversion and retention to measurable business results.', priorities: ['Check tracking and the events that really matter.', 'Find where the funnel loses users.', 'Optimise acquisition for the first business action, not just the install.'], service: 'App Growth Audit + Tracking + Funnel Optimization + Acquisition', cta: 'Audit my app growth', secondaryCta: 'See the apps we delivered' },
+  product_takeover: { title: 'Your priority: Product Takeover', diagnostic: 'The main brake seems to be the product foundation. Before investing more in growth, secure what exists, fix what blocks and make the product able to evolve again.', priorities: ['Technical and product audit.', 'Map risks, technical debt and blockers.', 'Takeover, stabilisation and evolution roadmap.'], service: 'Product Audit + Technical Review + Takeover Roadmap', cta: 'Get my product audited', secondaryCta: 'See a product takeover' },
+  digital_transformation: { title: 'Your priority: Digital Transformation & Lead Generation', diagnostic: 'Your main challenge is to better structure the offer, the digital journey and acquisition, to turn demand into qualified leads, sales, enrolments or installations.', priorities: ['Clarify the offer and the conversion journey.', 'Structure acquisition, qualification and sales follow-up.', 'Gradually connect leads to business results.'], service: 'Digital Transformation + Lead Generation + Funnel + CRM / WhatsApp', cta: 'Audit my acquisition', secondaryCta: 'See cases by sector' },
+  audit_first: { title: 'Your priority: Clarify before executing', diagnostic: 'Your situation shows several frictions at once. Before adding development or marketing budget, it is better to pinpoint the first blocker to address.', priorities: ['Clarify the business priority.', 'Identify the main bottleneck.', 'Build a roadmap ordered by impact.'], service: 'Strategic Growth Audit / Diagnostic Workshop', cta: 'Book a diagnostic', secondaryCta: 'Talk about my situation' },
+};
+
+/* Questions et textes de résultat dans la langue de la page. */
+export const questionsFor = (lang: 'fr' | 'en'): Question[] => lang === 'fr' ? questions
+  : questions.map(q => ({ ...q, ...questionsEn[q.id], options: q.options.map(o => ({ ...o, label: optionsEn[o.id] ?? o.label })) }));
+export const resultCopyFor = (lang: 'fr' | 'en') => lang === 'en' ? resultCopyEn : resultCopy;

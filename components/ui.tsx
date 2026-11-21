@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import { ArrowRight, ArrowUpRight, Code2, Smartphone, TrendingUp, Layers3, ChartNoAxesCombined, Rocket, Phone } from 'lucide-react';
 import { projects, services } from '@/lib/content';
+import { localePath, type Lang } from '@/lib/i18n';
 
-export function Button({href,children,secondary=false}:{href:string;children:React.ReactNode;secondary?:boolean}) { return <Link className={`button ${secondary?'secondary':''}`} href={href}><span className="button-label">{children}</span><ArrowRight className="button-icon" size={17} strokeWidth={2} aria-hidden="true"/></Link> }
+export function Button({href,children,secondary=false,track}:{href:string;children:React.ReactNode;secondary?:boolean;track?:string}) { return <Link className={`button ${secondary?'secondary':''}`} href={href} data-track={track}><span className="button-label">{children}</span><ArrowRight className="button-icon" size={17} strokeWidth={2} aria-hidden="true"/></Link> }
 export function Eyebrow({children}:{children:React.ReactNode}) {return <div className="eyebrow">{children}</div>}
 export function SectionTitle({eyebrow,title,accent,href,label='Tout découvrir'}:{eyebrow:string;title:string;accent?:string;href?:string;label?:string}){return <div className="section-heading"><Eyebrow>{eyebrow}</Eyebrow><h2>{title}{accent&&<><br/><span>{accent}</span></>}</h2>{href&&<Link className="text-link" href={href}>{label}<ArrowUpRight size={17}/></Link>}</div>}
 
@@ -19,10 +20,10 @@ export function SectionHead({index,eyebrow,title,accent,lead,href,cta,center=fal
 }
 
 /* Emplacement d'image réservé : visible, soigné, prêt à recevoir le visuel définitif. */
-export function MediaSlot({label,className=''}:{label:string;className?:string}){
-  return <div className={`media-slot ${className}`} role="img" aria-label={`Emplacement réservé : ${label}`}>
+export function MediaSlot({label,className='',sub='Visuel à venir'}:{label:string;className?:string;sub?:string}){
+  return <div className={`media-slot ${className}`} role="img" aria-label={`${label} · ${sub}`}>
     <span className="slot-mark tl"/><span className="slot-mark tr"/><span className="slot-mark bl"/><span className="slot-mark br"/>
-    <span className="slot-label">{label}</span><span className="slot-sub">Visuel à venir</span>
+    <span className="slot-label">{label}</span><span className="slot-sub">{sub}</span>
   </div>;
 }
 
@@ -39,18 +40,21 @@ export function ProjectVisual({project,large=false}:{project:typeof projects[num
 export function ProjectCard({project}:{project:typeof projects[number]}){return <article className="project-card"><ProjectVisual project={project}/><h3>{project.title}</h3></article>}
 
 /* CTA final : section claire, grande carte sombre avec anneaux orange, trois étapes et deux façons de nous joindre. */
-const nextSteps=['Un premier échange sur votre projet','Un Growth Audit de vos points de friction','Un plan d’action priorisé']
-export function CTA(){return <section className="cta" id="contact"><div className="container">
+const ctaCopy={
+  fr:{badge:'Et si on construisait la suite ?',title:<>Votre prochaine étape.<br/><em>Ça commence ici.</em></>,lead:'Un produit à lancer, une app à faire grandir ou une acquisition à rendre rentable : parlons-en.',cta:'Parlons de votre projet',steps:['Un premier échange sur votre projet','Un Growth Audit de vos points de friction','Un plan d’action priorisé']},
+  en:{badge:'Shall we build what comes next?',title:<>Your next step.<br/><em>Starts here.</em></>,lead:'A product to launch, an app to grow or acquisition to make profitable: let’s talk.',cta:'Let’s talk about your project',steps:['A first conversation about your project','A Growth Audit of your friction points','A prioritised action plan']},
+};
+export function CTA({lang}:{lang:Lang}){const t=ctaCopy[lang];return <section className="cta" id="contact"><div className="container">
   <div className="cta-card" data-reveal>
     <div className="cta-rings" aria-hidden="true"><i/><i/><i/></div>
-    <span className="cta-badge">Et si on construisait la suite ?</span>
-    <h2 className="cta-title">Votre prochaine étape.<br/><em>Ça commence ici.</em></h2>
-    <p className="cta-lead">Un produit à lancer, une app à faire grandir ou une acquisition à rendre rentable : parlons-en.</p>
+    <span className="cta-badge">{t.badge}</span>
+    <h2 className="cta-title">{t.title}</h2>
+    <p className="cta-lead">{t.lead}</p>
     <div className="cta-actions">
-      <Button href="/contact">Parlons de votre projet</Button>
+      <Button href={localePath(lang,'/contact')}>{t.cta}</Button>
       <a className="cta-phone" href="tel:+212661912916"><Phone size={17} strokeWidth={1.8} aria-hidden="true"/>+212 6 61 91 29 16</a>
     </div>
-    <ol className="cta-steps">{nextSteps.map((s,i)=><li key={s}><span>{String(i+1).padStart(2,'0')}</span>{s}</li>)}</ol>
+    <ol className="cta-steps">{t.steps.map((s,i)=><li key={s}><span>{String(i+1).padStart(2,'0')}</span>{s}</li>)}</ol>
   </div>
 </div></section>}
 export function Funnel({steps}:{steps:string[]}){return <ol className="funnel">{steps.map((s,i)=><li key={s}><span>{String(i+1).padStart(2,'0')}</span><strong>{s}</strong></li>)}</ol>}

@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useRef } from 'react';
 import { banners, sectors, type Banner } from '@/lib/banners';
+import { useLang } from '@/components/lang-provider';
 
 /* Bannières de projets en format bannière (16:9) qui défilent seules sur toute la largeur de la scène (onglet Développement).
    Pause au survol et hors écran ; en mouvement réduit, les bannières restent fixes. */
@@ -8,11 +9,12 @@ const sectorLabel = (id: string) => sectors.find(s => s.id === id)?.label ?? '';
 const COLUMNS = 1;
 
 function Card({ b, hidden }: { b: Banner; hidden?: boolean }) {
+  const title = useLang() === 'en' ? b.titleEn : b.title;
   return <figure className={`sc-card is-${b.format}`} aria-hidden={hidden || undefined}>
     {b.src
-      ? <img src={b.src} alt={hidden ? '' : `${b.project} — ${b.title}`} decoding="async" draggable={false} />
-      : <div className={`sc-empty sc-${b.sector}`}><i aria-hidden="true" /><strong>{b.project}</strong><span>{sectorLabel(b.sector)}</span></div>}
-    {b.src && <figcaption className="sc-cap"><strong>{b.project}</strong><span>{b.title} · {sectorLabel(b.sector)}</span></figcaption>}
+      ? <img src={b.src} alt={hidden ? '' : `${title} — ${sectorLabel(b.sector)}`} decoding="async" draggable={false} />
+      : <div className={`sc-empty sc-${b.sector}`}><i aria-hidden="true" /><strong>{sectorLabel(b.sector)}</strong><span>{title}</span></div>}
+    {b.src && <figcaption className="sc-cap"><strong>{sectorLabel(b.sector)}</strong><span>{title}</span></figcaption>}
   </figure>;
 }
 

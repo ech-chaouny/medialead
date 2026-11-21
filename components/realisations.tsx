@@ -1,7 +1,13 @@
 'use client';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Play, X } from 'lucide-react';
-import { groups, itemsOf, contentLabels, type Realisation, type RealisationType } from '@/lib/realisations';
+import { groups, itemsOf, titleOf, contentLabels, type Realisation, type RealisationType } from '@/lib/realisations';
+import { useLang } from '@/components/lang-provider';
+
+const ui = {
+  fr: { soon: 'Visuel à venir', reserved: 'Emplacement réservé', newTab: 'nouvel onglet', play: 'Lire la vidéo', prev: 'précédent', next: 'suivant', video: 'Vidéo', close: 'Fermer la vidéo' },
+  en: { soon: 'Visual coming soon', reserved: 'Placeholder', newTab: 'new tab', play: 'Play the video', prev: 'previous', next: 'next', video: 'Video', close: 'Close the video' },
+};
 
 /* Réalisations : une rangée défilante par type (Applications, Systèmes, Sites web, Contenus).
    Flèches, swipe, trackpad et clavier ; accrochage sur chaque carte. Les reels jouent un extrait muet de 4 s quand ils sont
@@ -16,10 +22,15 @@ const isLight = (hex = '') => {
 };
 const domain = (url?: string) => url?.replace(/^https?:\/\//, '').replace(/\/.*$/, '') ?? '';
 
+function EmptyShot({ item }: { item: Realisation }) {
+  const t = ui[useLang()];
+  return <div className="rz-empty" role="img" aria-label={`${t.reserved} : ${item.title} — ${item.sector}`}><span>{t.soon}</span></div>;
+}
+
 function Shot({ item, w, h }: { item: Realisation; w: number; h: number }) {
   return item.image
-    ? <img src={item.image} alt={`${item.title} — ${item.client}`} width={w} height={h} loading="lazy" decoding="async" draggable={false} />
-    : <div className="rz-empty" role="img" aria-label={`Emplacement réservé : ${item.title} — ${item.client}`}><span>Visuel à venir</span></div>;
+    ? <img src={item.image} alt={`${item.title} — ${item.sector}`} width={w} height={h} loading="lazy" decoding="async" draggable={false} />
+    : <EmptyShot item={item} />;
 }
 
 // Extrait muet en boucle : chargé et lu seulement quand la carte est à l'écran, jamais en mouvement réduit.
@@ -35,20 +46,21 @@ function Preview({ item }: { item: Realisation }) {
   return <video ref={ref} src={item.preview} poster={item.image} muted loop playsInline preload="none" aria-hidden="true" />;
 }
 
-const Meta = ({ item }: { item: Realisation }) => <div className="rz-meta"><strong>{item.title}</strong><span>{item.client} · {item.sector}</span></div>;
+const Meta = ({ item }: { item: Realisation }) => <div className="rz-meta"><strong>{item.title}</strong><span>{item.sector}</span></div>;
 
 function Browser({ item }: { item: Realisation }) {
   return <div className="rz-browser">
-    <div className="rz-bar" aria-hidden="true"><i /><i /><i /><span>{domain(item.url) || item.client.toLowerCase().replace(/\s+/g, '')}</span></div>
+    <div className="rz-bar" aria-hidden="true"><i /><i /><i /><span>{domain(item.url) || 'back-office'}</span></div>
     <div className="rz-screen"><Shot item={item} w={1120} h={700} /></div>
   </div>;
 }
 
 function Card({ item, onPlay }: { item: Realisation; onPlay: (r: Realisation) => void }) {
+  const t = ui[useLang()];
   if (item.type === 'app') return <li className="rz-item is-app">
     <div className={`rz-app${isLight(item.bgColor) ? ' is-light' : ''}`} style={{ backgroundColor: item.bgColor }}>
       {item.mockup && item.image
-        ? <img className="rz-mockup" src={item.image} alt={`${item.title} — ${item.client}`} width={620} height={1051} loading="lazy" decoding="async" draggable={false} />
+        ? <img className="rz-mockup" src={item.image} alt={`${item.title} — ${item.sector}`} width={620} height={1051} loading="lazy" decoding="async" draggable={false} />
         : <div className="rz-phone"><Shot item={item} w={600} h={1300} /></div>}
     </div>
     <Meta item={item} />
@@ -58,7 +70,7 @@ function Card({ item, onPlay }: { item: Realisation; onPlay: (r: Realisation) =>
 
   if (item.type === 'website') return <li className="rz-item is-wide">
     {item.url
-      ? <a className="rz-link" href={item.url} target="_blank" rel="noopener noreferrer" aria-label={`${item.title} — ${item.client} (nouvel onglet)`}><Browser item={item} /><span className="rz-open" aria-hidden="true"><ArrowUpRight size={16} strokeWidth={2} /></span></a>
+      ? <a className="rz-link" href={item.url} target="_blank" rel="noopener noreferrer" aria-label={`${item.title} — ${item.sector} (${t.newTab})`}><Browser item={item} /><span className="rz-open" aria-hidden="true"><ArrowUpRight size={16} strokeWidth={2} /></span></a>
       : <Browser item={item} />}
     <Meta item={item} />
   </li>;
@@ -68,18 +80,20 @@ function Card({ item, onPlay }: { item: Realisation; onPlay: (r: Realisation) =>
     {item.preview ? <Preview item={item} /> : <Shot item={item} w={500} h={888} />}
     {item.contentType && <span className="rz-badge">{contentLabels[item.contentType]}</span>}
     {item.contentType === 'video' && <span className="rz-play" aria-hidden="true"><Play size={22} strokeWidth={2} fill="currentColor" /></span>}
-    <div className="rz-over"><strong>{item.title}</strong><span>{item.client}</span></div>
+    <div className="rz-over"><strong>{item.title}</strong><span>{item.sector}</span></div>
   </>;
   return <li className={`rz-item is-content${item.contentType === 'post' ? ' is-post' : ''}`}>
     {playable
-      ? <button type="button" className="rz-content" onClick={() => onPlay(item)} aria-label={`Lire la vidéo : ${item.title} — ${item.client}`}>{body}</button>
+      ? <button type="button" className="rz-content" onClick={() => onPlay(item)} aria-label={`${t.play} : ${item.title} — ${item.sector}`}>{body}</button>
       : <div className="rz-content">{body}</div>}
   </li>;
 }
 
 function Row({ type, index, onPlay }: { type: RealisationType; index: number; onPlay: (r: Realisation) => void }) {
   const group = groups.find(g => g.type === type)!;
-  const items = itemsOf(type);
+  const lang = useLang();
+  const t = ui[lang];
+  const items = itemsOf(type).map(r => ({ ...r, title: titleOf(r, lang) }));
   const track = useRef<HTMLUListElement>(null);
   const [edge, setEdge] = useState({ start: true, end: false });
 
@@ -111,22 +125,23 @@ function Row({ type, index, onPlay }: { type: RealisationType; index: number; on
   return <div className="rz-group" data-reveal>
     <div className="container rz-head">
       <div>
-        <span className="rz-label">{String(index + 1).padStart(2, '0')} · {group.label}</span>
-        <h3 id={id}>{group.title}</h3>
+        <span className="rz-label">{String(index + 1).padStart(2, '0')} · {group.label[lang]}</span>
+        <h3 id={id}>{group.title[lang]}</h3>
       </div>
       <div className="rz-controls">
-        <span className="rz-count">{plural(items.length, group.unit)}</span>
-        <button type="button" className="rz-arrow" onClick={() => go(-1)} disabled={edge.start} aria-label={`${group.label} : précédent`} aria-controls={`${id}-track`}><ArrowLeft size={18} strokeWidth={2} /></button>
-        <button type="button" className="rz-arrow" onClick={() => go(1)} disabled={edge.end} aria-label={`${group.label} : suivant`} aria-controls={`${id}-track`}><ArrowRight size={18} strokeWidth={2} /></button>
+        <span className="rz-count">{plural(items.length, group.unit[lang])}</span>
+        <button type="button" className="rz-arrow" onClick={() => go(-1)} disabled={edge.start} aria-label={`${group.label[lang]} : ${t.prev}`} aria-controls={`${id}-track`}><ArrowLeft size={18} strokeWidth={2} /></button>
+        <button type="button" className="rz-arrow" onClick={() => go(1)} disabled={edge.end} aria-label={`${group.label[lang]} : ${t.next}`} aria-controls={`${id}-track`}><ArrowRight size={18} strokeWidth={2} /></button>
       </div>
     </div>
     <ul className={`rz-track is-${type}`} id={`${id}-track`} ref={track} onScroll={update} tabIndex={0} aria-labelledby={id}>
-      {items.map(item => <Card key={`${item.client}-${item.title}`} item={item} onPlay={onPlay} />)}
+      {items.map(item => <Card key={`${item.sector}-${item.title}`} item={item} onPlay={onPlay} />)}
     </ul>
   </div>;
 }
 
 export default function Realisations() {
+  const t = ui[useLang()];
   const [video, setVideo] = useState<Realisation | null>(null);
   const dialog = useRef<HTMLDialogElement>(null);
 
@@ -140,9 +155,9 @@ export default function Realisations() {
   return <>
     {groups.map(g => g.type).filter(t => itemsOf(t).length > 0).map((t, i) => <Row key={t} type={t} index={i} onPlay={setVideo} />)}
 
-    <dialog className="rz-modal" ref={dialog} onClose={() => setVideo(null)} onClick={e => { if (e.target === e.currentTarget) setVideo(null); }} aria-label={video ? `${video.title} — ${video.client}` : 'Vidéo'}>
+    <dialog className="rz-modal" ref={dialog} onClose={() => setVideo(null)} onClick={e => { if (e.target === e.currentTarget) setVideo(null); }} aria-label={video ? `${video.title} — ${video.sector}` : t.video}>
       {video?.video && <video src={video.video} poster={video.image || undefined} controls autoPlay playsInline />}
-      <button type="button" className="rz-close" onClick={() => setVideo(null)} aria-label="Fermer la vidéo"><X size={20} strokeWidth={2} /></button>
+      <button type="button" className="rz-close" onClick={() => setVideo(null)} aria-label={t.close}><X size={20} strokeWidth={2} /></button>
     </dialog>
   </>;
 }

@@ -46,7 +46,6 @@ export async function POST(request: Request) {
     !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(contact.email) && 'email',
     !/^[+0-9 ().-]{8,20}$/.test(contact.phone) && 'phone',
     contact.url && !/^https?:\/\/\S+$/i.test(contact.url) && 'url',
-    c.consent !== 'yes' && 'consent',
   ].filter(Boolean);
 
   const answers: Answers = {};
@@ -74,6 +73,7 @@ export async function POST(request: Request) {
     score_audit_first: result.scores.audit_first,
     diagnostic_axes: result.axes.map(x => axisLabels[x]).join(', '),
     owner: owners[result.primary],
+    consent: 'acceptation à l’envoi (politique de confidentialité)',
     ...Object.fromEntries(['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'landing_page', 'referrer', 'timestamp'].map(k => [k, clean(a[k], 500)])),
     received_at: new Date().toISOString(),
   };

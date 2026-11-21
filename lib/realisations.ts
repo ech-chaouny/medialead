@@ -1,4 +1,5 @@
 import data from './realisations.json';
+import { marocTelecomAuthorized } from './sectors';
 
 /* Réalisations : toutes les données viennent de realisations.json.
    Pour ajouter un projet : ajouter une ligne dans le JSON, déposer l'image (WebP) dans public/ et renseigner son chemin.
@@ -19,6 +20,7 @@ export type Realisation = {
   type: RealisationType;
   order: number;
   title: string;
+  titleEn?: string;
   client: string;
   sector: string;
   image?: string;
@@ -28,16 +30,24 @@ export type Realisation = {
   contentType?: ContentType;
   preview?: string;
   video?: string;
+  brandLogo?: 'maroc-telecom';
 };
 
-export const groups: { type: RealisationType; label: string; title: string; unit: [string, string] }[] = [
-  { type: 'app', label: 'Applications', title: 'Des apps pensées pour l’usage.', unit: ['écran', 'écrans'] },
-  { type: 'system', label: 'Systèmes', title: 'Des back-offices pour piloter.', unit: ['système', 'systèmes'] },
-  { type: 'website', label: 'Sites web', title: 'Des sites pour être trouvé.', unit: ['site', 'sites'] },
-  { type: 'content', label: 'Contenus', title: 'Vidéos, stories et posts.', unit: ['contenu', 'contenus'] },
+export const groups: { type: RealisationType; label: Record<'fr' | 'en', string>; title: Record<'fr' | 'en', string>; unit: Record<'fr' | 'en', [string, string]> }[] = [
+  { type: 'app', label: { fr: 'Applications', en: 'Apps' }, title: { fr: 'Des apps pensées pour l’usage.', en: 'Apps designed for real use.' }, unit: { fr: ['écran', 'écrans'], en: ['screen', 'screens'] } },
+  { type: 'system', label: { fr: 'Systèmes', en: 'Systems' }, title: { fr: 'Des back-offices pour piloter.', en: 'Back-offices to run the business.' }, unit: { fr: ['système', 'systèmes'], en: ['system', 'systems'] } },
+  { type: 'website', label: { fr: 'Sites web', en: 'Websites' }, title: { fr: 'Des sites pour être trouvé.', en: 'Websites built to be found.' }, unit: { fr: ['site', 'sites'], en: ['site', 'sites'] } },
+  { type: 'content', label: { fr: 'Contenus', en: 'Content' }, title: { fr: 'Vidéos, stories et posts.', en: 'Videos, stories and posts.' }, unit: { fr: ['contenu', 'contenus'], en: ['piece', 'pieces'] } },
 ];
+
+/* Titre d'une réalisation dans la langue de la page. */
+export const titleOf = (r: Realisation, lang: 'fr' | 'en') => (lang === 'en' && r.titleEn) || r.title;
 
 export const contentLabels: Record<ContentType, string> = { video: 'Reel', post: 'Post', story: 'Story', ads: 'Ads' };
 
 const all = data as Realisation[];
-export const itemsOf = (type: RealisationType) => all.filter(r => r.type === type).sort((a, b) => a.order - b.order);
+// `client` reste interne (jamais affiché) ; un visuel avec un logo tiers n'apparaît qu'avec l'autorisation.
+export const itemsOf = (type: RealisationType) => all.filter(r => r.type === type && (!r.brandLogo || marocTelecomAuthorized)).sort((a, b) => a.order - b.order);
+
+/* Nombre total de réalisations d'un type (y compris celles masquées faute d'autorisation de logo). */
+export const countOf = (type: RealisationType) => all.filter(r => r.type === type).length;

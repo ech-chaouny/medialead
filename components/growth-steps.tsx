@@ -1,7 +1,8 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import { Code2, ChartNoAxesCombined, Target, MousePointerClick, ShoppingBag, RefreshCw, TrendingUp, ArrowRight } from 'lucide-react';
-import { stages, stageDetails } from '@/lib/content';
+import { Code2, ChartNoAxesCombined, Target, MousePointerClick, ShoppingBag, RefreshCw, TrendingUp } from 'lucide-react';
+import { contentFor } from '@/lib/content';
+import { useLang } from '@/components/lang-provider';
 
 /* Growth System sur deux lignes de quatre : une ligne relie les étapes et fait un retour à la ligne
    entre la 4e et la 5e, comme un texte qu'on lit. Le tracé est calculé sur la position réelle des points. */
@@ -10,6 +11,7 @@ const PER_ROW = 4;
 const R = 22;
 
 export default function GrowthSteps() {
+  const { stages, stageDetails } = contentFor(useLang());
   const list = useRef<HTMLOListElement>(null);
   const [path, setPath] = useState('');
   const [drawn, setDrawn] = useState(false);
@@ -61,10 +63,5 @@ export default function GrowthSteps() {
         </div>
       </li>;
     })}
-    <li className="steps-next">
-      <span className="step-name">Par où commencer ?</span>
-      <p>Un Growth Audit pour savoir quelle étape débloquer en premier.</p>
-      <a href="#audit">Faire le diagnostic<ArrowRight size={15} strokeWidth={2} aria-hidden="true" /></a>
-    </li>
   </ol>;
 }

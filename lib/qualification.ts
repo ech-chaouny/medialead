@@ -39,3 +39,12 @@ export const timelines: Choice[] = [
 export const DESCRIPTION_MAX = 300;
 
 export const labelOf = (list: Choice[], id: unknown) => list.find(c => c.id === id);
+
+/* Libellés anglais affichés dans le formulaire (le CRM reçoit toujours les libellés français ci-dessus). */
+const labelsEn: Record<string, string> = {
+  launch: 'Launch a digital product', takeover: 'Evolve / take over an existing product', app_growth: 'Grow an app / platform', lead_gen: 'Generate more leads / sales', digital: 'Digitise my business', unknown: 'I don’t know yet',
+  idea: 'Idea / defined project', mvp: 'MVP in development', launched: 'Product already launched', revenue: 'Product with customers / revenue', business: 'Existing business to digitise',
+  lt20: 'Under 20,000 MAD', '20_50': '20,000 - 50,000 MAD', '50_100': '50,000 - 100,000 MAD', '100_250': '100,000 - 250,000 MAD', gt250: '250,000 MAD and above', tbd: 'To be defined with Medialead',
+  asap: 'As soon as possible', '1m': 'Within 1 month', '1_3m': 'Within 1 to 3 months', later: 'Later / exploring',
+};
+export const localize = (list: Choice[], lang: 'fr' | 'en') => lang === 'en' ? list.map(c => ({ ...c, label: labelsEn[c.id] ?? c.label })) : list;

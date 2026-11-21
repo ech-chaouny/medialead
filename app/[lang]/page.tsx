@@ -27,7 +27,7 @@ const reasonIcons = [Layers3, Target, ChartNoAxesCombined, Users];
 const pillarIcons = { dev: Code2, marketing: Megaphone, results: TrendingUp } as const;
 const takeoverIcons = [Search, Wrench, ChartNoAxesCombined, TrendingUp];
 const audienceIcons = [Smartphone, Rocket, Building2];
-const team = [['Zakaria Mtioui Chkairi', 'Strategy & Growth', 'zakaria'], ['Ismail Ech Chaouny', 'Tech & Product', 'ismail'], ['Hanane', 'Growth & Project Management', 'hanane'], ['Hafsa', 'Video & Content Creator', 'hafsa'], ['Jihane', 'Content Creator', 'jihane']];
+const team = [['Zakaria Mtioui Chkairi', 'Strategy & Growth', 'zakaria'], ['Ismail', 'Tech & Product', 'ismail'], ['Hanane', 'Growth & Project Management', 'hanane'], ['Hafsa', 'Video & Content Creator', 'hafsa'], ['Jihane', 'Content Creator', 'jihane']];
 /* Une icône par étape du parcours app, dans l'ordre de appFunnel. */
 const funnelIcons = [Megaphone, Store, Download, UserPlus, UserCheck, ShoppingCart, CircleCheck, RefreshCw];
 

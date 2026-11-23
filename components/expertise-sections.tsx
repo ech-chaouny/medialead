@@ -38,29 +38,8 @@ export default function ExpertiseSections({ lang }: { lang: Lang }) {
   const t = copy[lang];
   const c = contentFor(lang);
   const audit = localePath(lang, '/#audit');
-  /* Résultats affichés dans la section Transformation : mêmes chiffres validés que l'onglet Résultats. */
-  const proofs = c.doneResults.filter(r => r.id !== 'washroc');
-
   return <>
-    {/* Digital Transformation & Lead Generation */}
-    <section className="section paper" id="transformation"><div className="container split is-reversed">
-      <div className="split-copy" data-reveal>
-        <div className="eyebrow">DIGITAL TRANSFORMATION & LEAD GENERATION</div>
-        <h2>{t.transfo.title}</h2>
-        <p className="split-lead">{t.transfo.lead}</p>
-        <span className="proof-title">{t.transfo.results}</span>
-        <div className="proof-band">{proofs.map(p => <div className="proof-stat" key={p.id}>
-          <span className="proof-client">{sectorLabels[p.id]}</span>
-          <strong><CountUp value={p.value} /><small>{p.unit}</small></strong>
-          <p>{p.label}</p>
-        </div>)}</div>
-        <div className="split-foot"><Button href={audit}>{t.transfo.cta}</Button></div>
-      </div>
-      <div className="pipeline" data-reveal aria-label={t.transfo.aria}>
-        <div className="pipeline-head"><span>{t.transfo.journey}</span><span className="pipeline-live"><i />{t.transfo.live}</span></div>
-        <ol>{c.businessFunnel.map((s, i) => <li key={s} className={i === c.businessFunnel.length - 1 ? 'is-goal' : undefined}><span className="pipeline-num">{String(i + 1).padStart(2, '0')}</span>{s}{i === 4 && <em>WhatsApp</em>}</li>)}</ol>
-      </div>
-    </div></section>
+    <TransformationSection lang={lang} />
 
     {/* Measurement & Data */}
     <section className="section alt" id="mesure"><div className="container">
@@ -104,6 +83,37 @@ export default function ExpertiseSections({ lang }: { lang: Lang }) {
         <h3>{r.title}</h3><p>{r.text}</p>
       </article>; })}</div>
     </div></section>
+  </>;
+}
+
+/* Digital Transformation & Lead Generation : sur /expertises et en tête de la page /realisations. */
+export function TransformationSection({ lang }: { lang: Lang }) {
+  const t = copy[lang];
+  const c = contentFor(lang);
+  const audit = localePath(lang, '/#audit');
+  /* Résultats affichés dans la section Transformation : mêmes chiffres validés que l'onglet Résultats. */
+  const proofs = c.doneResults.filter(r => r.id !== 'washroc');
+  return <>
+    {/* Digital Transformation & Lead Generation */}
+    <section className="section paper" id="transformation"><div className="container split is-reversed">
+      <div className="split-copy" data-reveal>
+        <div className="eyebrow">DIGITAL TRANSFORMATION & LEAD GENERATION</div>
+        <h2>{t.transfo.title}</h2>
+        <p className="split-lead">{t.transfo.lead}</p>
+        <span className="proof-title">{t.transfo.results}</span>
+        <div className="proof-band">{proofs.map(p => <div className="proof-stat" key={p.id}>
+          <span className="proof-client">{sectorLabels[p.id]}</span>
+          <strong><CountUp value={p.value} /><small>{p.unit}</small></strong>
+          <p>{p.label}</p>
+        </div>)}</div>
+        <div className="split-foot"><Button href={audit}>{t.transfo.cta}</Button></div>
+      </div>
+      <div className="pipeline" data-reveal aria-label={t.transfo.aria}>
+        <div className="pipeline-head"><span>{t.transfo.journey}</span><span className="pipeline-live"><i />{t.transfo.live}</span></div>
+        <ol>{c.businessFunnel.map((s, i) => <li key={s} className={i === c.businessFunnel.length - 1 ? 'is-goal' : undefined}><span className="pipeline-num">{String(i + 1).padStart(2, '0')}</span>{s}{i === 4 && <em>WhatsApp</em>}</li>)}</ol>
+      </div>
+    </div></section>
+
   </>;
 }
 

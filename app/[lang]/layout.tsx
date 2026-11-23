@@ -23,5 +23,5 @@ export async function generateMetadata({params}:LayoutProps<'/[lang]'>):Promise<
 export default async function RootLayout({children,params}:LayoutProps<'/[lang]'>){
   const {lang}=await params;
   if(!isLang(lang))notFound();
-  return <html lang={lang}><body><LangProvider lang={lang}><a href="#main" className="skip-link">{lang==='en'?'Skip to content':'Aller au contenu'}</a><Header/><main id="main">{children}</main><Footer lang={lang}/><WhatsAppButton lang={lang}/><ConsentManager/><Reveal/><AttributionKeeper/></LangProvider></body></html>;
+  return <html lang={lang} data-scroll-behavior="smooth"><body><LangProvider lang={lang}><a href="#main" className="skip-link">{lang==='en'?'Skip to content':'Aller au contenu'}</a><Header/><main id="main">{children}</main><Footer lang={lang}/><WhatsAppButton lang={lang}/><ConsentManager/><Reveal/><AttributionKeeper/></LangProvider></body></html>;
 }

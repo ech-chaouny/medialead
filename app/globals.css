@@ -2322,3 +2322,8 @@ button.rz-content:hover .rz-play { transform: scale(1.08); background: var(--ora
 .rz-col { display: flex; flex-direction: column; gap: 20px; min-width: 0; margin: 0; padding: 0; list-style: none; }
 .rz-col .rz-item, .rz-col .rz-item.is-content.is-post { width: 100%; margin: 0; }
 @media (max-width: 900px) { .rz-track.is-grid, .rz-col { gap: 12px; } }
+
+/* Bande clients : logos seuls, sans libellé de secteur, centrés dans chaque carte. */
+.logo-wall li img { margin: auto 0; }
+.logo-loop .logo-wall li, .logo-loop .logo-wall li:hover { height: 112px; }
+@media (max-width: 760px) { .logo-loop .logo-wall li, .logo-loop .logo-wall li:hover { height: 96px; } }

@@ -8,12 +8,12 @@ import GrowthSteps from '@/components/growth-steps';
 import AuditDiagnostic from '@/components/audit-diagnostic';
 import RealisationsSection from '@/components/realisations-section';
 import { AppGrowthSection } from '@/components/expertise-sections';
-import { sectorLabels, marocTelecomAuthorized } from '@/lib/sectors';
+import { marocTelecomAuthorized } from '@/lib/sectors';
 import { localePath, type Lang } from '@/lib/i18n';
 
 /* Accueil : l'essentiel. Les expertises détaillées sont sur /expertises ; les réalisations sont ici et sur /realisations. */
 
-/* Logos clients : seul endroit du site où apparaissent les noms. Fichiers détourés dans /images/logos, tailles équilibrées en CSS. */
+/* Logos clients : seul endroit du site où apparaissent les noms (logos seuls, sans libellé de secteur). Fichiers détourés dans /images/logos, tailles équilibrées en CSS. */
 const allClients = [
   { name: 'DROK', src: 'drok.webp', key: 'drok' },
   { name: 'WashRoc', src: 'washroc.webp', key: 'washroc' },
@@ -113,7 +113,6 @@ export default async function Home({ params }: PageProps<'/[lang]'>) {
         <div className="logo-loop-track">
           {[false, true].map(hidden => <ul key={String(hidden)} className="logo-wall" aria-hidden={hidden || undefined}>{clients.map(cl => <li key={cl.key} className={`logo-${cl.key}`}>
             <img src={`/images/logos/${cl.src}`} alt={hidden ? '' : `${t.logos.alt} ${cl.name}`} loading="lazy" />
-            <span>{sectorLabels[cl.key]}</span>
           </li>)}</ul>)}
         </div>
       </div>

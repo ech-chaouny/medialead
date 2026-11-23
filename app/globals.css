@@ -2331,3 +2331,6 @@ button.rz-content:hover .rz-play { transform: scale(1.08); background: var(--ora
 /* Footer : le grand wordmark déborde vers le haut (line-height < 1) et recouvrait les liens légaux ; il ne capte plus les clics. */
 .site-footer .footer-wordmark { pointer-events: none; }
 .site-footer .footer-bottom { position: relative; z-index: 1; }
+
+/* Pages légales : titre en orange, bien lisible sur fond blanc. */
+.legal h1 { color: var(--orange); }

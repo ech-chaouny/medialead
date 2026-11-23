@@ -9,12 +9,12 @@ const copy = {
 };
 export async function generateMetadata({ params }: PageProps<'/[lang]/realisations'>): Promise<Metadata> { return copy[(await params).lang as Lang].meta; }
 
-/* Même section que sur l'accueil, sur sa propre page. */
+/* Même section que sur l'accueil, sur sa propre page ; ici les contenus sont en grille au lieu d'un carrousel. */
 export default async function RealisationsPage({ params }: PageProps<'/[lang]/realisations'>) {
   const lang = (await params).lang as Lang;
   const t = copy[lang];
   return <>
     <PageHero badge={t.badge} title={t.title} accent={t.accent} lead={t.lead} />
-    <RealisationsSection lang={lang} head={false} />
+    <RealisationsSection lang={lang} head={false} gridContent />
   </>;
 }

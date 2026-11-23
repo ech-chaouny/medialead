@@ -2304,3 +2304,21 @@ button.rz-content:hover .rz-play { transform: scale(1.08); background: var(--ora
 /* Éventail des reels légèrement plus bas dans son cadre. */
 :is(#deja-fait, #resultats) .done-deck { top: 30px; }
 @media (max-width: 600px) { :is(#deja-fait, #resultats) .done-deck { top: 16px; } }
+
+/* Page Réalisations : contenus en grille (mosaïque), sans défilement horizontal. Reels et stories 9:16, posts 4:5. */
+.rz-track.is-grid { display: block; columns: 4 240px; column-gap: 20px; overflow: visible; padding: 4px var(--rz-gutter) 12px; scroll-snap-type: none; }
+.rz-track.is-grid .rz-item, .rz-track.is-grid .rz-item.is-content.is-post { display: block; width: 100%; margin-bottom: 20px; break-inside: avoid; }
+@media (max-width: 900px) { .rz-track.is-grid { columns: 2; column-gap: 12px; } .rz-track.is-grid .rz-item { margin-bottom: 12px; } }
+
+/* Grille des contenus en lignes (gauche → droite, dans l'ordre du fichier) au lieu de colonnes :
+   les premiers contenus sont ceux de la première ligne. */
+.rz-track.is-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; align-items: start; columns: auto; }
+.rz-track.is-grid .rz-item, .rz-track.is-grid .rz-item.is-content.is-post { margin-bottom: 0; }
+@media (max-width: 1100px) { .rz-track.is-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 900px) { .rz-track.is-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; } }
+
+/* Mosaïque des contenus (page Réalisations) : colonnes indépendantes, donc aucun vide sous les posts. */
+.rz-track.is-grid { display: grid; grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); gap: 20px; align-items: start; }
+.rz-col { display: flex; flex-direction: column; gap: 20px; min-width: 0; margin: 0; padding: 0; list-style: none; }
+.rz-col .rz-item, .rz-col .rz-item.is-content.is-post { width: 100%; margin: 0; }
+@media (max-width: 900px) { .rz-track.is-grid, .rz-col { gap: 12px; } }

@@ -89,7 +89,7 @@ function Card({ item, onPlay }: { item: Realisation; onPlay: (r: Realisation) =>
   </li>;
 }
 
-function Row({ type, index, onPlay }: { type: RealisationType; index: number; onPlay: (r: Realisation) => void }) {
+function Row({ type, index, onPlay, grid = false }: { type: RealisationType; index: number; onPlay: (r: Realisation) => void; grid?: boolean }) {
   const group = groups.find(g => g.type === type)!;
   const lang = useLang();
   const t = ui[lang];
@@ -130,17 +130,38 @@ function Row({ type, index, onPlay }: { type: RealisationType; index: number; on
       </div>
       <div className="rz-controls">
         <span className="rz-count">{plural(items.length, group.unit[lang])}</span>
+        {!grid && <>
         <button type="button" className="rz-arrow" onClick={() => go(-1)} disabled={edge.start} aria-label={`${group.label[lang]} : ${t.prev}`} aria-controls={`${id}-track`}><ArrowLeft size={18} strokeWidth={2} /></button>
         <button type="button" className="rz-arrow" onClick={() => go(1)} disabled={edge.end} aria-label={`${group.label[lang]} : ${t.next}`} aria-controls={`${id}-track`}><ArrowRight size={18} strokeWidth={2} /></button>
+        </>}
       </div>
     </div>
-    <ul className={`rz-track is-${type}`} id={`${id}-track`} ref={track} onScroll={update} tabIndex={0} aria-labelledby={id}>
-      {items.map(item => <Card key={`${item.sector}-${item.title}`} item={item} onPlay={onPlay} />)}
-    </ul>
+    {grid
+      ? <Masonry items={[...items].sort((a, b) => (a.gridOrder ?? a.order) - (b.gridOrder ?? b.order))} onPlay={onPlay} labelledBy={id} />
+      : <ul className={`rz-track is-${type}`} id={`${id}-track`} ref={track} onScroll={update} tabIndex={0} aria-labelledby={id}>
+          {items.map(item => <Card key={`${item.sector}-${item.title}`} item={item} onPlay={onPlay} />)}
+        </ul>}
   </div>;
 }
 
-export default function Realisations() {
+/* Grille de la page Réalisations : mosaïque sans trous. Les éléments sont distribués colonne par colonne
+   dans l'ordre (1, 2, 3, 4 sur la première ligne, puis 5, 6…), le nombre de colonnes suit la largeur. */
+function Masonry({ items, onPlay, labelledBy }: { items: Realisation[]; onPlay: (r: Realisation) => void; labelledBy: string }) {
+  const [cols, setCols] = useState(4);
+  useEffect(() => {
+    const queries = [matchMedia('(max-width: 900px)'), matchMedia('(max-width: 1100px)')];
+    const pick = () => setCols(queries[0].matches ? 2 : queries[1].matches ? 3 : 4);
+    pick();
+    queries.forEach(q => q.addEventListener('change', pick));
+    return () => queries.forEach(q => q.removeEventListener('change', pick));
+  }, []);
+  const columns = Array.from({ length: cols }, (_, c) => items.filter((_, i) => i % cols === c));
+  return <div className="rz-track is-grid" role="group" aria-labelledby={labelledBy} style={{ '--cols': cols } as React.CSSProperties}>
+    {columns.map((col, c) => <ul className="rz-col" key={c}>{col.map(item => <Card key={`${item.sector}-${item.title}`} item={item} onPlay={onPlay} />)}</ul>)}
+  </div>;
+}
+
+export default function Realisations({ gridTypes = [] }: { gridTypes?: RealisationType[] }) {
   const t = ui[useLang()];
   const [video, setVideo] = useState<Realisation | null>(null);
   const dialog = useRef<HTMLDialogElement>(null);
@@ -153,7 +174,7 @@ export default function Realisations() {
   }, [video]);
 
   return <>
-    {groups.map(g => g.type).filter(t => itemsOf(t).length > 0).map((t, i) => <Row key={t} type={t} index={i} onPlay={setVideo} />)}
+    {groups.map(g => g.type).filter(t => itemsOf(t).length > 0).map((t, i) => <Row key={t} type={t} index={i} onPlay={setVideo} grid={gridTypes.includes(t)} />)}
 
     <dialog className="rz-modal" ref={dialog} onClose={() => setVideo(null)} onClick={e => { if (e.target === e.currentTarget) setVideo(null); }} aria-label={video ? `${video.title} — ${video.sector}` : t.video}>
       {video?.video && <video src={video.video} poster={video.image || undefined} controls autoPlay playsInline />}

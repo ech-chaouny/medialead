@@ -31,6 +31,8 @@ export type Realisation = {
   preview?: string;
   video?: string;
   brandLogo?: 'maroc-telecom';
+  /* Ordre propre à la grille de la page Réalisations (sinon `order`). */
+  gridOrder?: number;
 };
 
 export const groups: { type: RealisationType; label: Record<'fr' | 'en', string>; title: Record<'fr' | 'en', string>; unit: Record<'fr' | 'en', [string, string]> }[] = [

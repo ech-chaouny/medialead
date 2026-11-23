@@ -2327,3 +2327,7 @@ button.rz-content:hover .rz-play { transform: scale(1.08); background: var(--ora
 .logo-wall li img { margin: auto 0; }
 .logo-loop .logo-wall li, .logo-loop .logo-wall li:hover { height: 112px; }
 @media (max-width: 760px) { .logo-loop .logo-wall li, .logo-loop .logo-wall li:hover { height: 96px; } }
+
+/* Footer : le grand wordmark déborde vers le haut (line-height < 1) et recouvrait les liens légaux ; il ne capte plus les clics. */
+.site-footer .footer-wordmark { pointer-events: none; }
+.site-footer .footer-bottom { position: relative; z-index: 1; }

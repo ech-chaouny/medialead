@@ -7,8 +7,8 @@ import { useLang } from '@/components/lang-provider';
 import { localePath, stripLang, LANG_COOKIE, type Lang } from '@/lib/i18n';
 
 const copy = {
-  fr: { links: [['/#expertises', 'Expertises'], ['/#methode', 'Notre méthode'], ['/#realisations', 'Réalisations'], ['/#agence', 'L’agence']], cta: 'Parlons de votre projet', open: 'Ouvrir le menu', close: 'Fermer le menu', nav: 'Navigation principale', home: 'Medialead — Accueil', switchTo: 'Switch to English' },
-  en: { links: [['/#expertises', 'Expertise'], ['/#methode', 'Our method'], ['/#realisations', 'Work'], ['/#agence', 'The agency']], cta: 'Let’s talk about your project', open: 'Open menu', close: 'Close menu', nav: 'Main navigation', home: 'Medialead — Home', switchTo: 'Passer en français' },
+  fr: { links: [['/', 'Accueil'], ['/expertises', 'Expertises'], ['/realisations', 'Réalisations']], cta: 'Parlons de votre projet', open: 'Ouvrir le menu', close: 'Fermer le menu', nav: 'Navigation principale', home: 'Medialead — Accueil', switchTo: 'Switch to English' },
+  en: { links: [['/', 'Home'], ['/expertises', 'Expertise'], ['/realisations', 'Work']], cta: 'Let’s talk', open: 'Open menu', close: 'Close menu', nav: 'Main navigation', home: 'Medialead — Home', switchTo: 'Passer en français' },
 };
 
 /* Mémorise la langue choisie (cookie fonctionnel, 1 an) : le proxy s'en sert aux visites suivantes. */
@@ -29,12 +29,13 @@ export default function Header() {
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
-    const sections = t.links.map(([href]) => document.getElementById(href.split('#')[1])).filter((el): el is HTMLElement => el !== null);
+    const sections = t.links.filter(([href]) => href.includes('#')).map(([href]) => document.getElementById(href.split('#')[1])).filter((el): el is HTMLElement => el !== null);
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) setActive(`/#${e.target.id}`); });
     }, { rootMargin: '-45% 0px -50% 0px' });
     sections.forEach(s => io.observe(s));
-    setActive('');
+    // Pages dédiées (Expertises, Réalisations) : lien actif d'après l'adresse.
+    setActive(t.links.find(([href]) => !href.includes('#') && stripLang(pathname) === href)?.[0] ?? '');
     return () => { window.removeEventListener('scroll', onScroll); io.disconnect(); };
   }, [pathname, t.links]);
 
@@ -55,7 +56,7 @@ export default function Header() {
     <div className="nav-wrap container">
       <Link href={localePath(lang, '/')} className="brand" aria-label={t.home} onClick={toTop}><img src="/images/medialead-logo-dark.webp" alt="Medialead" width="170" height="36" /></Link>
       <nav aria-label={t.nav} className={open ? 'nav open' : 'nav'}>
-        {t.links.map(([href, label]) => <a key={href} href={localePath(lang, href)} className={active === href ? 'is-active' : undefined} aria-current={active === href ? 'location' : undefined} onClick={() => setOpen(false)}>{label}</a>)}
+        {t.links.map(([href, label]) => <a key={href} href={localePath(lang, href)} className={active === href ? 'is-active' : undefined} aria-current={active === href ? 'page' : undefined} onClick={href === '/' ? toTop : () => setOpen(false)}>{label}</a>)}
         <a className="button nav-mobile-cta" href={localePath(lang, '/contact')} onClick={() => setOpen(false)}><span className="button-label">{t.cta}</span><ArrowRight className="button-icon" size={16} strokeWidth={1.8} aria-hidden="true" /></a>
       </nav>
       <div className="nav-end">

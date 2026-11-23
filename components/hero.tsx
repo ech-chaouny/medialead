@@ -13,7 +13,7 @@ export default function Hero({ lang }: { lang: Lang }) {
     <div className="hero-clean-glow" aria-hidden="true" />
     <div className="container hero-clean-inner">
       <span className="hero-badge">Product · Growth · Data</span>
-      <h1 id="hero-title"><span>We build.</span> <span>We launch.</span> <em>We grow.</em></h1>
+      <h1 id="hero-title"><span>We build.</span> <span>Launch.</span> <em>Grow.</em></h1>
       <p className="hero-clean-sub">{t.sub}</p>
       <p className="hero-clean-body">{t.body}</p>
       <div className="hero-clean-actions">

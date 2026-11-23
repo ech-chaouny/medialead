@@ -9,13 +9,13 @@ const copy = {
   fr: {
     tagline: 'Le produit, le marketing et la data. Une même direction : votre croissance.', cta: 'Parlons de votre projet',
     expertise: 'Expertises', navigation: 'Navigation', contact: 'Contact', rights: 'Tous droits réservés.', top: 'Haut de page', home: 'Medialead — Accueil',
-    nav: [['/#methode', 'Notre méthode'], ['/#realisations', 'Réalisations'], ['/#agence', 'L’agence'], ['/#audit', 'Growth Audit'], ['/contact', 'Contact']],
+    nav: [['/expertises', 'Expertises'], ['/#methode', 'Notre méthode'], ['/realisations', 'Réalisations'], ['/#agence', 'L’agence'], ['/#audit', 'Growth Audit'], ['/contact', 'Contact']],
     legal: [['/mentions-legales', 'Mentions légales'], ['/confidentialite', 'Confidentialité'], ['/cookies', 'Cookies']], cookies: 'Gérer mes cookies',
   },
   en: {
     tagline: 'Product, marketing and data. One direction: your growth.', cta: 'Let’s talk about your project',
     expertise: 'Expertise', navigation: 'Navigation', contact: 'Contact', rights: 'All rights reserved.', top: 'Back to top', home: 'Medialead — Home',
-    nav: [['/#methode', 'Our method'], ['/#realisations', 'Work'], ['/#agence', 'The agency'], ['/#audit', 'Growth Audit'], ['/contact', 'Contact']],
+    nav: [['/expertises', 'Expertise'], ['/#methode', 'Our method'], ['/realisations', 'Work'], ['/#agence', 'The agency'], ['/#audit', 'Growth Audit'], ['/contact', 'Contact']],
     legal: [['/mentions-legales', 'Legal notice'], ['/confidentialite', 'Privacy'], ['/cookies', 'Cookies']], cookies: 'Manage cookies',
   },
 };
@@ -32,7 +32,7 @@ export default function Footer({ lang }: { lang: Lang }) {
           <p>{t.tagline}</p>
           <a className="footer-cta" href={to('/contact')}>{t.cta}<ArrowUpRight size={16} strokeWidth={2} aria-hidden="true" /></a>
         </div>
-        <nav aria-label={t.expertise}><h4>{t.expertise}</h4>{services.map(s => <a key={s.slug} href={to('/#expertises')}>{s.name}</a>)}</nav>
+        <nav aria-label={t.expertise}><h4>{t.expertise}</h4>{services.map(s => <a key={s.slug} href={to('/expertises')}>{s.name}</a>)}</nav>
         <nav aria-label={t.navigation}><h4>{t.navigation}</h4>{t.nav.map(([href, label]) => <a key={href} href={to(href)}>{label}</a>)}</nav>
         <div><h4>{t.contact}</h4>
           <a href={site.phoneHref}><Phone size={15} strokeWidth={1.8} aria-hidden="true" />{site.phone}</a>

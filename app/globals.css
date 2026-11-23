@@ -2176,3 +2176,131 @@ button.rz-content:hover .rz-play { transform: scale(1.08); background: var(--ora
 .lang-switch:hover { border-color: rgb(255 139 0 / 50%); }
 .lang-switch:hover span:not(.is-on) { color: #16120e; }
 .lang-switch:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+
+/* En-tête des pages Expertises et Réalisations : même esprit que le hero de l'accueil. */
+.page-hero { position: relative; overflow: hidden; padding: 170px 0 80px; background: radial-gradient(ellipse 60% 70% at 50% -10%, rgb(255 139 0 / 16%), transparent 70%), #fff; color: #16120e; text-align: center; }
+.page-hero-inner { display: flex; flex-direction: column; align-items: center; }
+.page-hero h1 { max-width: 900px; margin-top: 22px; font-family: var(--display); font-size: clamp(36px, 5vw, 68px); font-stretch: normal; line-height: 1.04; letter-spacing: -0.03em; color: #16120e; text-wrap: balance; }
+.page-hero h1 em { font-style: normal; color: var(--orange); }
+.page-hero p { max-width: 640px; margin-top: 18px; font-size: 18px; line-height: 1.6; color: #6e665f; }
+@media (max-width: 900px) { .page-hero { padding: 130px 0 56px; } }
+
+/* Téléphone : titre du hero en grand, une phrase par ligne (We build. / Launch. / Grow.). */
+@media (max-width: 600px) {
+  .hero-clean h1 { font-size: clamp(48px, 15vw, 72px); line-height: .98; letter-spacing: -0.04em; }
+  .hero-clean h1 > * { display: block; }
+}
+@media (max-width: 600px) { .hero-clean .hero-badge { padding: 9px 18px; font-size: 14px; letter-spacing: 0.08em; } }
+
+/* Téléphone : « Ce que nous avons déjà fait » plus large, moins de marges sur les côtés pour agrandir images et texte. */
+@media (max-width: 600px) {
+  :is(#deja-fait, #resultats) > .container { width: calc(100% - 20px); }
+  :is(#deja-fait, #resultats) .done-panel { padding: 18px 12px; border-radius: 18px; }
+  :is(#deja-fait, #resultats) .done-list li { padding-inline: 12px; }
+  :is(#deja-fait, #resultats) .done-stage { margin-inline: -4px; }
+  .sc-stage.is-compact { padding: 0 8px; }
+}
+
+/* Téléphone : Growth Audit plus aéré et plus lisible (moins de marges, rail des étapes plus compact, résultat masqué du rail). */
+@media (max-width: 600px) {
+  #audit > .container { width: calc(100% - 20px); }
+  #audit .audit-inner { gap: 28px; }
+  #audit .audit-copy { padding: 28px 18px 24px; border-radius: 24px; }
+  #audit h2 { font-size: 28px; line-height: 1.12; }
+  #audit .audit-copy > p { margin-top: 12px; font-size: 15px; line-height: 1.55; }
+  #audit .audit-themes { gap: 6px; margin-top: 18px; }
+  #audit .audit-themes li { padding: 5px 11px; font-size: 12px; }
+  #audit .audit-note { margin-top: 14px; font-size: 13px; }
+  .ga { border-radius: 22px; }
+  .ga-rail { padding: 14px 10px 10px; }
+  .ga-rail .ga-rail-end { display: none; }
+  .ga-rail button { gap: 6px; padding: 6px 2px; }
+  .ga-rail-txt strong { font-size: 11px; }
+  .ga-main { padding: 22px 18px 24px; }
+  .ga-intro .ga-title { font-size: 26px; }
+  .ga-text { font-size: 15px; }
+  .ga-hint { display: none; }
+}
+/* Rail en colonne sur téléphone : le rond garde sa taille (flex-basis s'appliquait à la hauteur) et le chiffre ressort. */
+@media (max-width: 900px) {
+  .ga-dot { flex: none; width: 32px; height: 32px; border-color: rgb(255 255 255 / 22%); color: var(--text); font-size: 13px; }
+  .ga-rail-txt strong { color: var(--muted); }
+}
+
+/* Téléphone : CTA final plus large, avec un espacement régulier entre badge, titre, texte, boutons et étapes. */
+@media (max-width: 600px) {
+  #contact.cta { padding-block: 64px; }
+  #contact.cta > .container { width: calc(100% - 28px); }
+  #contact .cta-card { padding: 52px 22px 32px; border-radius: 26px; }
+  #contact .cta-badge { padding: 7px 13px; font-size: 11px; }
+  #contact .cta-title { margin-top: 24px; max-width: none; font-size: 34px; line-height: 1.12; }
+  #contact .cta-lead { margin-top: 18px; font-size: 15px; line-height: 1.65; }
+  #contact .cta-actions { gap: 12px; margin-top: 34px; }
+  #contact .cta-steps { gap: 14px; margin-top: 44px; padding-top: 26px; }
+}
+
+/* En-tête centré avec un lien : le lien passe sous le texte, pour que le titre reste centré. */
+.sec-head.is-center { flex-direction: column; align-items: center; gap: 22px; }
+/* Lien sur fond clair (Réalisations) : texte sombre lisible. */
+#realisations .link-arrow { color: #16120e; border-color: #e2d9d0; }
+#realisations .link-arrow:hover { color: #9a4a00; border-color: var(--orange); }
+
+/* Deux sections de même couleur qui se suivent : un seul espace entre elles, pas deux. */
+#methode:has(+ #app-growth) { padding-bottom: 64px; }
+#methode + #app-growth { padding-top: 32px; }
+#realisations:has(+ #agence) { padding-bottom: 56px; }
+#realisations + #agence { padding-top: 40px; }
+@media (max-width: 900px) {
+  #methode:has(+ #app-growth) { padding-bottom: 48px; }
+  #methode + #app-growth { padding-top: 16px; }
+  #realisations:has(+ #agence) { padding-bottom: 40px; }
+  #realisations + #agence { padding-top: 24px; }
+}
+
+/* Onglet Développement (ordinateur) : les bannières prennent plus de place, moins d'espace autour. */
+@media (min-width: 901px) {
+  :is(#deja-fait, #resultats) .done-grid { grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 32px; }
+  .sc-stage.is-compact { padding: 0 10px; }
+  .sc-stage.is-compact .sc-track { gap: 14px; padding-block: 7px; }
+  #deja-fait .done-stage.is-scroller .sc-card, .sc-stage.is-compact .sc-card { border-radius: 12px; }
+}
+
+/* Onglet « Création de contenu » : trois reels en éventail à la place des emplacements vides. */
+:is(#deja-fait, #resultats) .done-deck .deck-video { width: 46%; min-height: 0; aspect-ratio: 9 / 16; padding: 0; overflow: hidden; border: 0; border-radius: 18px; background: #16120e; box-shadow: 0 2px 4px rgb(22 18 14 / 8%), 0 24px 44px -22px rgb(22 18 14 / 45%); }
+.deck-video > button { position: relative; display: block; width: 100%; height: 100%; padding: 0; border: 0; background: none; cursor: pointer; }
+.deck-video video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.deck-video .rz-play { width: 48px; height: 48px; margin: -24px 0 0 -24px; }
+.deck-video > button:hover .rz-play { transform: scale(1.08); background: var(--orange); }
+.deck-video > button:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+:is(#deja-fait, #resultats) .done-deck { height: 400px; }
+@media (max-width: 600px) { :is(#deja-fait, #resultats) .done-deck { height: 340px; } }
+
+/* Reels en éventail : plus grands, dans un cadre de téléphone (bord sombre, encoche), lecture mise en avant sur la carte du milieu. */
+:is(#deja-fait, #resultats) .done-deck { max-width: 540px; height: 520px; }
+:is(#deja-fait, #resultats) .done-deck .deck-video { width: 46%; border: 7px solid #16120e; border-radius: 34px; background: #16120e; box-shadow: 0 0 0 1px rgb(255 255 255 / 8%) inset, 0 2px 4px rgb(22 18 14 / 10%), 0 30px 50px -24px rgb(22 18 14 / 55%); }
+:is(#deja-fait, #resultats) .done-deck .deck-video::before { content: ""; position: absolute; top: 9px; left: 50%; z-index: 2; width: 32%; height: 15px; border-radius: 999px; background: #16120e; transform: translateX(-50%); pointer-events: none; }
+.deck-video video { border-radius: 27px; }
+:is(#deja-fait, #resultats) .done-deck .deck-video:nth-child(2) { transform: translate(-50%, -54%) scale(1.06); }
+:is(#deja-fait, #resultats) .done-deck:hover .deck-video:nth-child(2) { transform: translate(-50%, -58%) scale(1.06); }
+/* Sur les cartes de côté, le bouton lecture n'apparaît qu'au survol. */
+.done-deck .deck-video:not(:nth-child(2)) .rz-play { opacity: 0; transition: opacity .3s var(--ease), transform .3s var(--ease); }
+.done-deck .deck-video:not(:nth-child(2)):hover .rz-play { opacity: 1; }
+@media (hover: none) { .done-deck .deck-video .rz-play { opacity: 1; } }
+@media (max-width: 600px) {
+  :is(#deja-fait, #resultats) .done-deck { height: 380px; }
+  :is(#deja-fait, #resultats) .done-deck .deck-video { width: 50%; border-width: 5px; border-radius: 26px; }
+  .deck-video video { border-radius: 21px; }
+  :is(#deja-fait, #resultats) .done-deck .deck-video::before { top: 7px; height: 11px; }
+}
+/* Cadre des reels plus fin. */
+:is(#deja-fait, #resultats) .done-deck .deck-video { border-width: 3px; border-radius: 30px; }
+.deck-video video { border-radius: 27px; }
+:is(#deja-fait, #resultats) .done-deck .deck-video::before { top: 8px; width: 28%; height: 12px; }
+@media (max-width: 600px) {
+  :is(#deja-fait, #resultats) .done-deck .deck-video { border-width: 2px; border-radius: 24px; }
+  .deck-video video { border-radius: 22px; }
+  :is(#deja-fait, #resultats) .done-deck .deck-video::before { top: 6px; height: 9px; }
+}
+/* Éventail des reels légèrement plus bas dans son cadre. */
+:is(#deja-fait, #resultats) .done-deck { top: 30px; }
+@media (max-width: 600px) { :is(#deja-fait, #resultats) .done-deck { top: 16px; } }

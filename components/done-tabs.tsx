@@ -6,12 +6,17 @@ import { MediaSlot } from '@/components/ui';
 import { sectorLabels } from '@/lib/sectors';
 import BannerScroller from '@/components/banner-scroller';
 import ResultsBento from '@/components/results-bento';
+import DeckVideo from '@/components/deck-video';
+import { itemsOf, titleOf } from '@/lib/realisations';
+
+/* Les trois vidéos de l'onglet « Création de contenu » (mêmes reels que la rangée Contenus). */
+const deckVideos = ['drok-sketch-cles', 'bahia-repas-famille', 'washroc-sketch-saff'];
 import { UtensilsCrossed, Droplets, Store, GraduationCap, type LucideIcon } from 'lucide-react';
 
 /* V5 §5.5 — ce que nous avons déjà fait, par domaine. */
 const copy = {
-  fr: { tabs: ['Développement', 'Création de contenu', 'Résultats'], aria: 'Ce que nous avons déjà fait', builds: ['Application reconstruite', 'Produit repris et adapté', 'Marketplace vidéo'], creatives: ['Offres et relance de l’application', 'Campagnes de lancement du service', 'Campagnes d’inscription aux formations'], creativeTitle: 'Des créatives pensées pour la performance.', creative: 'Créative', soon: 'Visuel à venir' },
-  en: { tabs: ['Development', 'Content creation', 'Results'], aria: 'What we have already done', builds: ['App rebuilt', 'Product taken over and adapted', 'Video marketplace'], creatives: ['App offers and re-engagement', 'Service launch campaigns', 'Course enrolment campaigns'], creativeTitle: 'Creatives built for performance.', creative: 'Creative', soon: 'Visual coming soon' },
+  fr: { tabs: ['Développement', 'Création de contenu', 'Résultats'], aria: 'Ce que nous avons déjà fait', builds: ['Application reconstruite', 'Produit repris et adapté', 'Marketplace vidéo'], creatives: ['Offres et relance de l’application', 'Campagnes de lancement du service', 'Campagnes d’inscription aux formations'], creativeTitle: 'Des créatives pensées pour la performance.', creative: 'Créative', soon: 'Visuel à venir', play: 'Lire la vidéo' },
+  en: { tabs: ['Development', 'Content creation', 'Results'], aria: 'What we have already done', builds: ['App rebuilt', 'Product taken over and adapted', 'Video marketplace'], creatives: ['App offers and re-engagement', 'Service launch campaigns', 'Course enrolment campaigns'], creativeTitle: 'Creatives built for performance.', creative: 'Creative', soon: 'Visual coming soon', play: 'Play the video' },
 };
 const buildSectors: [string, LucideIcon][] = [[sectorLabels.drok, UtensilsCrossed], [sectorLabels.washroc, Droplets], [sectorLabels.privu, Store]];
 const creativeSectors: [string, LucideIcon][] = [[sectorLabels.drok, UtensilsCrossed], [sectorLabels.washroc, Droplets], [sectorLabels.fnm, GraduationCap]];
@@ -30,6 +35,8 @@ export default function DoneTabs() {
   const tabs = t.tabs;
   const builds = buildSectors.map(([s, Icon], i) => [s, t.builds[i], Icon] as [string, string, LucideIcon]);
   const creatives = creativeSectors.map(([s, Icon], i) => [s, t.creatives[i], Icon] as [string, string, LucideIcon]);
+  const contents = itemsOf('content');
+  const deck = deckVideos.map(name => contents.find(r => r.video?.includes(`/${name}.mp4`)));
   const [active, setActive] = useState(0);
   const onKey = (e: React.KeyboardEvent, i: number) => {
     if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
@@ -57,7 +64,9 @@ export default function DoneTabs() {
           <ul className="done-chips">{doneContent.map(d => <li key={d}>{d}</li>)}</ul>
           <SectorList items={creatives} />
         </div>
-        <div className="done-stage"><div className="done-deck">{[1, 2, 3].map(n => <MediaSlot key={n} label={`${t.creative} ${n}`} sub={t.soon} className="slot-portrait" />)}</div></div>
+        <div className="done-stage"><div className="done-deck">{deck.map((item, n) => item
+          ? <DeckVideo key={item.video} item={item} title={titleOf(item, lang)} playLabel={t.play} />
+          : <MediaSlot key={n} label={`${t.creative} ${n + 1}`} sub={t.soon} className="slot-portrait" />)}</div></div>
       </div>}
       {active === 2 && <div className="done-results">
         <h3>{pillars[2].text}</h3>

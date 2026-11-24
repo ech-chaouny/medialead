@@ -18,7 +18,9 @@ export const dynamicParams=false;
 export function generateStaticParams(){return langs.map(lang=>({lang}))}
 export async function generateMetadata({params}:LayoutProps<'/[lang]'>):Promise<Metadata>{
   const {lang}=await params; const m=meta[isLang(lang)?lang:'fr'];
-  return {metadataBase:new URL('https://medialead.ma'),title:{default:m.title,template:'%s · Medialead'},description:m.description,openGraph:{type:'website',locale:m.locale,siteName:'Medialead',title:m.title,description:m.description}};
+  return {metadataBase:new URL('https://medialead.ma'),title:{default:m.title,template:'%s · Medialead'},description:m.description,openGraph:{type:'website',locale:m.locale,siteName:'Medialead',title:m.title,description:m.description},
+    /* Vérification du domaine pour Meta (Business Manager). */
+    other:{'facebook-domain-verification':'qg9lbn1i66c4zu0vg8lb2avunp6o8n'}};
 }
 export default async function RootLayout({children,params}:LayoutProps<'/[lang]'>){
   const {lang}=await params;

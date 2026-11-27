@@ -7,8 +7,8 @@ import { useLang } from '@/components/lang-provider';
 import { localePath, stripLang, LANG_COOKIE, type Lang } from '@/lib/i18n';
 
 const copy = {
-  fr: { links: [['/', 'Accueil'], ['/expertises', 'Expertises'], ['/realisations', 'Réalisations']], cta: 'Parlons de votre projet', open: 'Ouvrir le menu', close: 'Fermer le menu', nav: 'Navigation principale', home: 'Medialead — Accueil', switchTo: 'Switch to English' },
-  en: { links: [['/', 'Home'], ['/expertises', 'Expertise'], ['/realisations', 'Work']], cta: 'Let’s talk', open: 'Open menu', close: 'Close menu', nav: 'Main navigation', home: 'Medialead — Home', switchTo: 'Passer en français' },
+  fr: { links: [['/', 'Accueil'], ['/expertises', 'Expertises'], ['/realisations', 'Réalisations']], cta: 'Parlons de votre projet', audit: 'Growth Audit', open: 'Ouvrir le menu', close: 'Fermer le menu', nav: 'Navigation principale', home: 'Medialead — Accueil', switchTo: 'Switch to English' },
+  en: { links: [['/', 'Home'], ['/expertises', 'Expertise'], ['/realisations', 'Work']], cta: 'Let’s talk', audit: 'Growth Audit', open: 'Open menu', close: 'Close menu', nav: 'Main navigation', home: 'Medialead — Home', switchTo: 'Passer en français' },
 };
 
 /* Mémorise la langue choisie (cookie fonctionnel, 1 an) : le proxy s'en sert aux visites suivantes. */
@@ -57,10 +57,13 @@ export default function Header() {
       <Link href={localePath(lang, '/')} className="brand" aria-label={t.home} onClick={toTop}><img src="/images/medialead-logo-dark.webp" alt="Medialead" width="170" height="36" /></Link>
       <nav aria-label={t.nav} className={open ? 'nav open' : 'nav'}>
         {t.links.map(([href, label]) => <a key={href} href={localePath(lang, href)} className={active === href ? 'is-active' : undefined} aria-current={active === href ? 'page' : undefined} onClick={href === '/' ? toTop : () => setOpen(false)}>{label}</a>)}
+        <a className="button secondary nav-mobile-cta nav-mobile-audit" href={localePath(lang, '/#audit')} onClick={() => setOpen(false)} data-track="nav_audit">{t.audit}</a>
         <a className="button nav-mobile-cta" href={localePath(lang, '/contact')} onClick={() => setOpen(false)}><span className="button-label">{t.cta}</span><ArrowRight className="button-icon" size={16} strokeWidth={1.8} aria-hidden="true" /></a>
       </nav>
       <div className="nav-end">
         {switcher}
+        {/* Accès direct au Growth Audit (section #audit de l'accueil), à côté du CTA principal. */}
+        <a className="button secondary nav-audit" href={localePath(lang, '/#audit')} data-track="nav_audit">{t.audit}</a>
         <a className="button nav-cta" href={localePath(lang, '/contact')}><span className="button-label">{t.cta}</span><ArrowRight className="button-icon" size={16} strokeWidth={1.8} aria-hidden="true" /></a>
         <button className="menu-toggle" aria-label={open ? t.close : t.open} aria-expanded={open} onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</button>
       </div>

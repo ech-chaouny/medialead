@@ -2334,3 +2334,10 @@ button.rz-content:hover .rz-play { transform: scale(1.08); background: var(--ora
 
 /* Pages légales : titre en orange, bien lisible sur fond blanc. */
 .legal h1 { color: var(--orange); }
+
+/* Header : bouton Growth Audit à côté du CTA, en contour ; dans le menu mobile sous 1100 px. */
+.site-header .nav-audit { min-height: 46px; padding: 0 20px; font-size: 14px; border: 1px solid rgb(22 18 14 / 14%); background: rgb(255 255 255 / 70%); color: #16120e; white-space: nowrap; }
+.site-header .nav-audit:hover { border-color: var(--orange); color: #9a4a00; }
+.site-header.is-scrolled .nav-audit { min-height: 42px; }
+@media (max-width: 1100px) { .site-header .nav-audit { display: none; } }
+@media (max-width: 900px) { .site-header .nav.open .nav-mobile-audit { margin-top: 20px; } .site-header .nav.open .nav-mobile-audit + .nav-mobile-cta { margin-top: 10px; } }

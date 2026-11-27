@@ -96,6 +96,7 @@ export default function AuditDiagnostic() {
       contact: Object.fromEntries(['name', 'company', 'email', 'phone', 'url', 'message', 'website_hp'].map(k => [k, String(f.get(k) ?? '')])),
       answers,
       attribution: readAttribution(),
+      lang,
     };
     try {
       const res = await fetch('/api/growth-audit', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });

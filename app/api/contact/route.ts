@@ -1,8 +1,9 @@
 import { needs, stages, budgets, timelines, labelOf, DESCRIPTION_MAX } from '@/lib/qualification';
+import { deliverLead, type Row } from '@/lib/lead-mail';
 
 /* Réception d'une demande « Parlons de votre projet », ou d'un formulaire court (accueil, /services-terrain).
-   Validation serveur de chaque champ, piège à robots, limite par IP, puis envoi au CRM via
-   CONTACT_WEBHOOK_URL (Make, Zapier, HubSpot, email…). Sans cette variable : 503, et le
+   Validation serveur de chaque champ, piège à robots, limite par IP, puis envoi par email (Resend)
+   et/ou au CRM via CONTACT_WEBHOOK_URL (voir lib/lead-mail.ts). Sans aucun canal : 503, et le
    formulaire n'affiche pas de confirmation. Pas de case à cocher : l'envoi vaut acceptation. */
 
 const hits = new Map<string, number[]>();
@@ -26,16 +27,22 @@ const attributionOf = (body: Record<string, unknown>): Record<string, string> =>
 };
 const source = (a: Record<string, string>) => [a.utm_source, a.utm_campaign].filter(Boolean).join(' / ') || 'direct';
 
-async function forward(payload: Record<string, unknown>) {
-  const webhook = process.env.CONTACT_WEBHOOK_URL;
-  if (!webhook) return Response.json({ error: 'crm_not_configured' }, { status: 503 });
-  try {
-    const res = await fetch(webhook, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-    if (!res.ok) return Response.json({ error: 'crm_error' }, { status: 502 });
-  } catch {
-    return Response.json({ error: 'crm_unreachable' }, { status: 502 });
-  }
-  return Response.json({ ok: true });
+/* Email à l'équipe (+ accusé de réception au prospect) et/ou webhook CRM. */
+function forward(payload: Record<string, unknown>, lang: unknown) {
+  const p = payload as Record<string, string>;
+  const rows: Row[] = [
+    ['Nom', p.name], ['Entreprise', p.company], ['Email', p.email], ['Téléphone', p.phone], ['Site / app', p.url],
+    ['Besoin', p.need_label], ['Stade', p.stage], ['Budget', p.project_budget], ['Délai', p.timeline],
+    ['Secteur', p.sector], ['Ville', p.city], ['Description', p.description],
+    ['Source', [p.utm_source, p.utm_medium, p.utm_campaign].filter(Boolean).join(' / ') || 'direct'],
+    ['Page d’arrivée', p.landing_page], ['Référent', p.referrer], ['Reçu le', p.received_at],
+  ];
+  return deliverLead({
+    subject: `Nouveau lead · ${p.company || p.name} · ${p.need_label || p.form}`,
+    title: `Nouvelle demande de ${p.name} (${p.company})`,
+    rows, data: payload, webhookUrl: process.env.CONTACT_WEBHOOK_URL,
+    contact: { name: p.name, email: p.email }, lang,
+  });
 }
 
 export async function POST(request: Request) {
@@ -67,7 +74,7 @@ export async function POST(request: Request) {
       ...lead, sector, city, form, consent: CONSENT, ...attribution,
       summary: [form, sector, city, source(attribution)].filter(Boolean).join(' | '),
       received_at: new Date().toISOString(),
-    });
+    }, body.lang);
   }
 
   // need_type : 1 à 3 besoins distincts.
@@ -98,5 +105,5 @@ export async function POST(request: Request) {
     // Fiche lisible pour le suivi commercial : « App Growth | Produit déjà lancé | 50 000 - 100 000 MAD | Dans 1 mois | linkedin / campagne ».
     summary: [need.map(n => n.internal).join(' + '), stage.label, budget.label, timeline.label, source(attribution)].join(' | '),
     received_at: new Date().toISOString(),
-  });
+  }, body.lang);
 }

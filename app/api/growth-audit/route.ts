@@ -1,9 +1,10 @@
+import { deliverLead } from '@/lib/lead-mail';
 import { questions, isComplete, computeResult, axisLabels, categoryLabels, type Answers, type Category } from '@/lib/growth-audit';
 
 /* Réception d'un lead du simulateur Growth Audit.
    Les champs sont validés ici et le résultat est recalculé à partir des réponses : les scores envoyés par
-   le navigateur ne sont jamais utilisés. Le lead est transmis au CRM via GROWTH_AUDIT_WEBHOOK_URL
-   (Make, Zapier, HubSpot…) ; tant que cette variable n'est pas définie, la route répond 503 et le
+   le navigateur ne sont jamais utilisés. Le lead part par email (Resend) et/ou au CRM via
+   GROWTH_AUDIT_WEBHOOK_URL (voir lib/lead-mail.ts) ; sans aucun canal, la route répond 503 et le
    formulaire n'affiche pas de confirmation. */
 
 const owners: Record<Category, string> = {
@@ -30,7 +31,7 @@ export async function POST(request: Request) {
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0].trim() || 'unknown';
   if (limited(ip)) return Response.json({ error: 'too_many_requests' }, { status: 429 });
 
-  let body: { contact?: Record<string, unknown>; answers?: Record<string, unknown>; attribution?: Record<string, unknown> };
+  let body: { contact?: Record<string, unknown>; answers?: Record<string, unknown>; attribution?: Record<string, unknown>; lang?: unknown };
   try { body = await request.json(); } catch { return Response.json({ error: 'invalid_json' }, { status: 400 }); }
 
   const c = body.contact ?? {};
@@ -78,13 +79,19 @@ export async function POST(request: Request) {
     received_at: new Date().toISOString(),
   };
 
-  const webhook = process.env.GROWTH_AUDIT_WEBHOOK_URL;
-  if (!webhook) return Response.json({ error: 'crm_not_configured' }, { status: 503 });
-  try {
-    const res = await fetch(webhook, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(lead) });
-    if (!res.ok) return Response.json({ error: 'crm_error' }, { status: 502 });
-  } catch {
-    return Response.json({ error: 'crm_unreachable' }, { status: 502 });
-  }
-  return Response.json({ ok: true });
+  const utm = lead as Record<string, unknown> as Record<string, string>;
+  return deliverLead({
+    subject: `Growth Audit · ${lead.company || lead.name} · ${lead.simulator_primary_label}`,
+    title: `Growth Audit : ${lead.name} (${lead.company})`,
+    rows: [
+      ['Nom', lead.name], ['Entreprise', lead.company], ['Email', lead.email], ['Téléphone', lead.phone], ['Site / app', lead.url],
+      ['Résultat', lead.simulator_primary_label], ['Confiance', lead.simulator_confidence], ['Axes', lead.diagnostic_axes],
+      ['Q1', lead.simulator_q1], ['Q2', lead.simulator_q2], ['Q3', lead.simulator_q3], ['Q4', lead.simulator_q4],
+      ['Message', lead.message], ['À suivre par', lead.owner],
+      ['Source', [utm.utm_source, utm.utm_medium, utm.utm_campaign].filter(Boolean).join(' / ') || 'direct'],
+      ['Page d’arrivée', utm.landing_page], ['Reçu le', lead.received_at],
+    ],
+    data: lead, webhookUrl: process.env.GROWTH_AUDIT_WEBHOOK_URL,
+    contact: { name: lead.name, email: lead.email }, lang: body.lang,
+  });
 }

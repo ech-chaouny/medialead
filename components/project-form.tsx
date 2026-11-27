@@ -69,7 +69,7 @@ export default function ProjectForm() {
     try {
       const res = await fetch('/api/contact', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...picks, need_type: needSel, ...contact, website_hp: hp ?? '', attribution: readAttribution() }),
+        body: JSON.stringify({ ...picks, need_type: needSel, ...contact, website_hp: hp ?? '', attribution: readAttribution(), lang }),
       });
       if (!res.ok) throw new Error(String(res.status));
       track('form_submit', { need_type: needSel.join(','), stage: picks.stage, project_budget: picks.project_budget, timeline: picks.timeline });
